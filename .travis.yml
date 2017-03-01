@@ -7,5 +7,17 @@ before_install:
     - gem install sass
 install: 
     - npm install
+
 before_script: 
     - grunt build
+script:
+    - grunt make_dist
+
+
+deploy:
+  provider: releases
+  api_key: "$GITHUB_API_KEY"
+  file: "mep_annotator.zip"
+  skip_cleanup: true
+  on:
+    tags: true

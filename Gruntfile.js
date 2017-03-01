@@ -1,3 +1,5 @@
+var packageJson = require("./package.json");
+
 module.exports = function (grunt) {
 
     grunt.initConfig({
@@ -77,7 +79,27 @@ module.exports = function (grunt) {
             files: {
                 './dist': ['./dist/annotator-frontend.js'],
             },
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: function () {
+                        // Build zip file string here
+                        return "mep_annotator.zip";
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: "./",
+                    src: ["dist/*"],
+                    dest: "./"
+                }]
+            }
+        },
+        test: {
+
         }
+
     });
 
     grunt.loadNpmTasks("grunt-browserify");
@@ -85,8 +107,10 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks('grunt-browser-sync');
     grunt.loadNpmTasks('grunt-extract-sourcemap');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     grunt.registerTask("build", ["sass", "browserify"]);
     grunt.registerTask("preview", ["build", "browserSync", "watch"]);
-    grunt.registerTask("test", []);
+    grunt.registerTask("test", ["test"]);
+    grunt.registerTask("make_dist", ["compress"]);
 };
