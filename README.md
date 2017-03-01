@@ -12,11 +12,10 @@ rough around the edges; documentation and clarifying information will be fleshed
 out further as the project progresses.
 
 
-## How to Use
+## [How to Use](#how-to-use)
 
-You can use the pre-built set of files in the Releases once I figure out how 
-Travis CI works; If you'd like to build your own, see the **How to Build** 
-section below.
+You can use the pre-built set of files in the Releases. If you'd like to build 
+the plugin yourself, see the **How to Build** section below.
 
 ### Prerequisites
 
@@ -50,7 +49,7 @@ For some reason, the vertical offset of the annotations are wrong (slightly rais
 when the Chrome dev tools are open and the video is fullscreen. If anyone has an idea
 why, please let us know.
 
-## How to Build
+## [How to Build](#how-to-build)
 
 This project is written in ES6 and transpiled by Babel and Browserify into a bundled file.
 
