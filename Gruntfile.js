@@ -77,9 +77,6 @@ module.exports = function (grunt) {
             files: {
                 './dist': ['./dist/annotator-frontend.js'],
             },
-        },
-        test: {
-            // Don't do anything for now
         }
     });
 
@@ -91,4 +88,5 @@ module.exports = function (grunt) {
 
     grunt.registerTask("build", ["sass", "browserify"]);
     grunt.registerTask("preview", ["build", "browserSync", "watch"]);
+    grunt.registerTask("test", []);
 };
