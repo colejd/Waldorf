@@ -1,4 +1,4 @@
-# Annotator.js
+# Annotator
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
 
