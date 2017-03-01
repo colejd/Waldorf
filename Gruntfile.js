@@ -77,6 +77,9 @@ module.exports = function (grunt) {
             files: {
                 './dist': ['./dist/annotator-frontend.js'],
             },
+        },
+        test: {
+            // Don't do anything for now
         }
     });
 
