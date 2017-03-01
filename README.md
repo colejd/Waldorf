@@ -1,4 +1,4 @@
-# Annotator
+# Annotator [![Build Status](https://travis-ci.org/seieibob/MEP-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/MEP-Annotator)
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
 
