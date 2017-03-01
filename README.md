@@ -11,10 +11,10 @@ rough around the edges; documentation and clarifying information will be fleshed
 out further as the project progresses.
 
 
-## [How to Use](#how-to-use)
+## How to Use
 
 You can use the pre-built set of files in the Releases. If you'd like to build 
-the plugin yourself, see the **How to Build** section below.
+the plugin yourself, see the [How to Build](#how-to-build) section below.
 
 ### Prerequisites
 
@@ -48,7 +48,7 @@ For some reason, the vertical offset of the annotations are wrong (slightly rais
 when the Chrome dev tools are open and the video is fullscreen. If anyone has an idea
 why, please let us know.
 
-## [How to Build](#how-to-build)
+## How to Build
 
 This project is written in ES6 and transpiled by Babel and Browserify into a bundled file.
 
