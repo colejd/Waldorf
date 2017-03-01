@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Annotator Test Page</title>
+    <meta name="description" content="Annotator Test Page">
+    <meta name="author" content="VEMILab Clave Team">
+
+    <link rel="stylesheet" href="/testpage/css/testpage.css">
+
+    <!-- Annotator Dependencies -->
+    <!-- Import JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- Import JQueryUI -->
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- Annotator Core -->
+    <script type="text/javascript" src="/dist/annotator-frontend.js"></script>
+    <link rel="stylesheet" href="/dist/annotator-frontend.css">
+</head>
+
+<body>
+    <video width="640" height="480">
+        <source src="http://sachinchoolur.github.io/lightGallery/static/videos/video2.mp4" type="video/mp4">
+    </video>
+
+    <script>
+        $("video").first().annotate();
+    </script>
+
+</body>
+
+
+</html>

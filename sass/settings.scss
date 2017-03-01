@@ -1,0 +1,5 @@
+// Activate to enable debug styles.
+$debug: false;
+@if ($debug) {
+    @debug "Debug mode is active.";
+}
