@@ -9,6 +9,7 @@
     "url": "https://github.com/seieibob/MEP-Annotator"
   },
   "main": "dist/annotator-module.js",
+  "private": true,
   "devDependencies": {
     "babelify": "^6.1.0",
     "browserify-shim": "^3.8.13",
