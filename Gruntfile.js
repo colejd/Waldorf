@@ -111,6 +111,6 @@ module.exports = function (grunt) {
 
     grunt.registerTask("build", ["sass", "browserify"]);
     grunt.registerTask("preview", ["build", "browserSync", "watch"]);
+    grunt.registerTask("make_release", ["build", "compress"]);
     grunt.registerTask("test", ["test"]);
-    grunt.registerTask("make_dist", ["compress"]);
 };

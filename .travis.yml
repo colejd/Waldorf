@@ -11,7 +11,7 @@ install:
 before_script: 
     - grunt build
 script:
-    - grunt make_dist
+    - grunt make_release
 
 
 deploy:

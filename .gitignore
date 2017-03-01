@@ -1,5 +1,4 @@
-# Hide this later once we've figured out the preferences stuff
-# ./dist/annotator-config.json
+dist/
 
 # Created by https://www.gitignore.io/api/osx,windows,linux,node,visualstudiocode,sass
 

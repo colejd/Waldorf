@@ -13,8 +13,9 @@ out further as the project progresses.
 
 ## How to Use
 
-You can use the pre-built set of files in the Releases. If you'd like to build 
-the plugin yourself, see the [How to Build](#how-to-build) section below.
+The following instructions are for using this plugin with your website.
+You can find the latest version of the plugin in the Releases; if you'd like to 
+build the plugin yourself, see [How to Build](#how-to-build).
 
 ### Prerequisites
 
@@ -23,14 +24,14 @@ the plugin yourself, see the [How to Build](#how-to-build) section below.
 
 ### Deployment
 
-You will need to import the above prerequisites and the files from 
-[/dist/](/dist/) on your page.
+You will need to import the above prerequisites and the files from the latest release 
+on your page.
 
 You can then use jQuery to reference a video object, and call `annotate()` on
 it; the plugin will do the rest.
 
 Example:
-```
+```html
 <script>
     $("video").annotate();
 </script>
@@ -50,7 +51,11 @@ why, please let us know.
 
 ## How to Build
 
+The following instructions are for building the plugin on your own machine.
+
+
 This project is written in ES6 and transpiled by Babel and Browserify into a bundled file.
+
 
 Note that this project was developed with [Visual Studio Code](https://code.visualstudio.com/). 
 It is highly recommended that you also use this.
@@ -69,14 +74,14 @@ npm install
 
 ### Building
 
-Building is done using Grunt. In Visual Studio Code, you can run a task with 
-`task taskName`.
+Building is done using Grunt. You can run any of the tasks with `grunt taskName`.
 
 Tasks:
 
-* `build`   - Bundles the source files into [/dist/](/dist/).
-* `preview` - Sets up live development environment with BrowserSync. Loads 
-              [/testpage/](/testpage/).
+* `build`        - Bundles the source files into [/dist/](/dist/).
+* `make_release` - Builds and compresses the final product for release.
+* `preview`      - Sets up live development environment with BrowserSync. Loads 
+                   [/testpage/](/testpage/).
 
 ## Built With
 
