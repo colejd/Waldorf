@@ -1,5 +1,6 @@
 dist/
 .vscode/
+nodistribute/
 
 # Created by https://www.gitignore.io/api/osx,windows,linux,node,sass
 
