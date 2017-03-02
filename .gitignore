@@ -1,6 +1,7 @@
 dist/
+.vscode/
 
-# Created by https://www.gitignore.io/api/osx,windows,linux,node,visualstudiocode,sass
+# Created by https://www.gitignore.io/api/osx,windows,linux,node,sass
 
 ### Linux ###
 *~
@@ -110,14 +111,6 @@ Temporary Items
 .sass-cache/
 *.css.map
 
-### VisualStudioCode ###
-.vscode/
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -139,4 +132,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/osx,windows,linux,node,visualstudiocode,sass
+# End of https://www.gitignore.io/api/osx,windows,linux,node,sass
