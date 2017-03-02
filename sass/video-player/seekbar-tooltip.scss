@@ -1,0 +1,26 @@
+.annotator-seekbar-tooltip {
+    background-color: #000000;
+    width: auto;
+    height: auto;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    
+    border-style: solid;
+    border-width: 1px;
+    border-color: white;
+    border-radius: 5px;
+    
+/*    opacity: 0.75;*/
+}
+
+.annotator-seekbar-tooltip-content {
+    text-align: center;
+    vertical-align: middle !important;
+    color: white !important;
+    p {
+        color: white !important;
+        opacity: 1.0 !important;
+    }
+/*    opacity: 1.0 !important;*/
+}

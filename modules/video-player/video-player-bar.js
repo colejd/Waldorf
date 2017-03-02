@@ -1,4 +1,5 @@
 import { GetFormattedTime } from "../utils/time.js";
+import { SeekbarTooltip } from "./seekbar-tooltip.js";
 
 class VideoPlayerBar {
 
@@ -49,6 +50,7 @@ class VideoPlayerBar {
             this.UpdateVideoTime();
         });
         this.$container.append(this.$seekBar);
+        this.seekbarTooltip = new SeekbarTooltip(this.$seekBar, this.player);
 
         this.$seekProgress = $("<div id='seek-fill'></div>");
         this.$container.append(this.$seekProgress);
@@ -61,7 +63,8 @@ class VideoPlayerBar {
         this.RegisterElement(this.$playButton, -4);
 
         // Time text
-        this.$timeText = $("<p>0:00/0:00</p>")
+        let zero = GetFormattedTime(0);
+        this.$timeText = $("<p>${zero}/${zero}</p>");
         this.RegisterElement(this.$timeText, -3);
 
         // Mute button
