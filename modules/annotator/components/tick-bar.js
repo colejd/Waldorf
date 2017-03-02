@@ -6,6 +6,10 @@ class TickBar {
         // Create the element
         this.$tickBar = $("<div class='annotator-tickbar'></div>");
         this.annotator.player.controlBar.$container.append(this.$tickBar);
+
+        this.annotator.$container.on("OnAnnotationsLoaded", (event, annotationManager)=>{
+            this.LoadAnnotations(annotationManager);
+        });
     }
 
     LoadAnnotations(annotationManager){
