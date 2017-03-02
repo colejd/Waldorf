@@ -17,7 +17,7 @@ window.addEventListener('load', function(){
     VerifyRequirements();
 });
 
-$.fn.annotate = function() {
+$.fn.annotate = function(serverURL) {
     // Error out early if "this" is not a video
     if($(this).prop('tagName').toLowerCase() != "video"){
         console.error("Cannot wrap a non-video element!");
@@ -32,7 +32,7 @@ $.fn.annotate = function() {
     let player = new AnnotatorVideoPlayer($(this));
     player.$container.on("OnVideoReady", ()=>{
         // Add annotator once video has loaded
-        let annotator = new VideoAnnotator(player);
+        let annotator = new VideoAnnotator(player, serverURL);
     });
 
 };

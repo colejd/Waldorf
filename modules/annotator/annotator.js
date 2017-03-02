@@ -1,10 +1,11 @@
 import { ServerInterface } from "./server-interface.js";
 import { AnnotationManager } from "./annotation-manager.js";
 import { TickBar } from "./components/tick-bar.js";
+import { PolygonOverlay } from "./components/polygon-overlay.js";
 import { preferences } from "../utils/preference-manager.js";
 
 class VideoAnnotator {
-    constructor(player){
+    constructor(player, serverURL){
         console.log("[Annotator] created for video.");
         
         this.player = player;
@@ -12,14 +13,13 @@ class VideoAnnotator {
         this.PopulateControls();
 
         this.server = new ServerInterface();
-        this.server.SetBaseURL("http://130.111.199.37:3000"); // External
-        //this.server.SetBaseURL("http://192.168.1.83:3000"); // Internal
+        this.server.SetBaseURL(serverURL);
         
         this.annotationManager = new AnnotationManager();
 
         this.server.FetchAnnotations('location', this.player.videoElement.currentSrc, (json)=>{
             this.annotationManager.PopulateFromJSON(json);
-            this.OnAnnotationsLoaded();
+            this.AnnotationsLoaded();
         });
 
         this.player.$container.on("OnTimeUpdate", (event, time) => {
@@ -58,11 +58,9 @@ class VideoAnnotator {
 
     }
 
-    OnAnnotationsLoaded(){
-        // Populate the TickBar
-        this.tickBar.LoadAnnotations(this.annotationManager);
-
-        //TODO: Send annotation loaded event
+    AnnotationsLoaded(){
+        //Send annotation loaded event
+        this.$container.trigger("OnAnnotationsLoaded", this.annotationManager);
     }
 
     ResizeOverlay(){
