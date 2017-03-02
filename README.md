@@ -100,4 +100,4 @@ due to the rapid state of change. We will revisit this when things settle down.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License. Please see the [LICENSE.md](LICENSE.md) file for details.
