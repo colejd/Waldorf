@@ -43,15 +43,11 @@ class VideoAnnotator {
     }
 
     PopulateControls(){
-        // Create the video overlay
-        this.$videoOverlay = $("<div class='annotator-video-overlay'></div>").appendTo(this.player.$container);
-        this.ResizeOverlay();
-        this.player.$container.on("OnFullscreenChange", (event, setFullscreen) => {
-            this.ResizeOverlay();
-        });
-
         // Create the tick bar
         this.tickBar = new TickBar(this);
+
+        // Create the polygon overlay
+        this.polyOverlay = new PolygonOverlay(this);
 
         // Create the info container
         this.$info = $("<div class='annotator-info'></div>").appendTo(this.$container);
@@ -63,25 +59,17 @@ class VideoAnnotator {
         this.$container.trigger("OnAnnotationsLoaded", this.annotationManager);
     }
 
-    ResizeOverlay(){
-        // Resize video overlay to fit actual video dimensions
-        let videoDims = this.player.GetVideoDimensions();
-        this.$videoOverlay.css('width', videoDims.width);
-        this.$videoOverlay.css('height', videoDims.height);
-        let heightDiff = (this.player.$video.height() - videoDims.height) / 2;
-        this.$videoOverlay.css('top', heightDiff);
-
-    }
-
     OnTimeUpdate(time){
         let annotationsNow = this.annotationManager.AnnotationsAtTime(time);
 
         // Update the info container
         this.$info.html("<p>Showing " + annotationsNow.length + " annotations (" + this.annotationManager.annotations.length + " total).</p>");
         // Add each annotation to the readout
-        for (var i = 0; i < annotationsNow.length; i++){
+        for (let i = 0; i < annotationsNow.length; i++){
             this.$info.append("<p><strong>Annotation " + (i + 1) + ":</strong><br>" + annotationsNow[i].ToHTML() + "</p>");
         }
+
+        this.$container.trigger("OnTimeUpdate", time);
     }
 
 

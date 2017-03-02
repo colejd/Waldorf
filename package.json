@@ -22,6 +22,7 @@
     "grunt-extract-sourcemap": "^0.1.19"
   },
   "dependencies": {
+    "clip-path-polygon": "^0.1.11",
     "jquery-ui": "^1.12.1",
     "screenfull": "^3.0.2"
   },

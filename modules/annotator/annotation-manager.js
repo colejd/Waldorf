@@ -22,11 +22,11 @@ class AnnotationManager {
         let timeMS = (time * 1000) | 0;
 
         // If the last time requested is asked for again, just give back the cached result
-        // if(timeMS == this.lastTimeRequested){
-        //     console.log("Using cache");
-        //     return this.cachedResults;
-        // }
-        // this.lastTimeRequested = timeMS;
+        if(timeMS == this.lastTimeRequested){
+            //console.log("Using cache");
+            return this.cachedResults;
+        }
+        this.lastTimeRequested = timeMS;
 
         // Filter all loaded annotations that fit within the range query.
         let filtered = this.annotations.filter(function(item){
@@ -34,7 +34,7 @@ class AnnotationManager {
         });
 
         // Cache the results
-        // this.cachedResults = filtered;
+        this.cachedResults = filtered;
 
         return filtered;
     }
