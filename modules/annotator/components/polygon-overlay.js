@@ -13,27 +13,30 @@ class PolygonOverlay {
             this.ResizeOverlay();
         });
 
-        this.annotator.$container.on("OnTimeUpdate", (event, time)=>{ 
-            this.Update(time); 
+        this.annotator.$container.on("OnNewAnnotationSet", (event, annotations)=>{
+            this.Update(annotations); 
         });
+
+        // this.annotator.$container.on("OnTimeUpdate", (event, time) => {
+        //     console.log("Time update");
+        // });
     }
 
-    Update(time){
+    Update(annotations){
         this.Clear();
 
-        let currentAnnotations = this.annotator.annotationManager.AnnotationsAtTime(time);
-        let polygons = currentAnnotations.map(a => JSON.parse(a.data["pointsArray"]));
+        let polygons = annotations.map(annotation => JSON.parse(annotation.data["pointsArray"]));
         
         //Sort polygon order by size (ascending)
     //    polygons.sort(function(a, b) {
     //        return this.GetArea(a) > this.GetArea(b);
     //    })
         
-        for (let polygon of polygons) {
+        for (let i = 0; i < polygons.length; i++) {
             // Make a new child of polyParent and clip it
             let $poly = $("<div class='annotator-overlay-poly'></div>").appendTo(this.$videoOverlay);
             //$poly.addClass("annotator-poly");
-            $poly.clipPath(polygon, {
+            $poly.clipPath(polygons[i], {
                 isPercentage: true,
                 svgDefId: 'annotatorPolySvg'
             });
@@ -48,6 +51,28 @@ class PolygonOverlay {
             //     plugins: ['follower']
             // });
             // $poly.tooltipster('content', annotations[i].data["text"]);
+
+
+            $poly.qtip({ // Grab all elements with a title attribute
+                content: {
+                    text: annotations[i].data["text"]
+                },
+                position: {
+                    my: 'bottom right',  // Position my top left...
+                    at: 'top left', // at the bottom right of...
+                    target: 'mouse',
+                    adjust: {
+                        mouse: true
+                    },
+                    viewport: this.annotator.player.$container
+                },
+                hide: {
+                    delay: 0 // No hide delay by default
+                },
+                style: {
+                    classes: 'qtip-dark qtip-rounded'
+                }
+            });
                 
             this.polyElements.push($poly);
         

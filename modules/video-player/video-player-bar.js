@@ -37,18 +37,18 @@ class VideoPlayerBar {
     PopulateElements(){
 
         this.$seekBar = $("<div id='seek-bar'><div id='seek-handle' class='ui-slider-handle'></div></div>");
-        let seekSlider = this.$seekBar.slider({
+        let $seekSlider = this.$seekBar.slider({
             min: 0.0,
             max: 1.0,
             step: 0.001
         });
-        seekSlider.on("slide", ()=>{
+        $seekSlider.on("slide", ()=>{
             this.UpdateVideoTime();
         });
-        seekSlider.on("slidestart", ()=>{
+        $seekSlider.on("slidestart", ()=>{
             this.TimeDragStarted();
         });
-        seekSlider.on("slidestop", ()=> {
+        $seekSlider.on("slidestop", ()=> {
             this.TimeDragFinished();
             this.UpdateVideoTime();  // Update visuals
         });

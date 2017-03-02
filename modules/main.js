@@ -11,6 +11,12 @@ import { VerifyRequirements } from "./utils/requirements.js";
 import { AnnotatorVideoPlayer } from "./video-player/video-player.js";
 import { VideoAnnotator } from "./annotator/annotator.js";
 
+require("./utils/array-extensions.js");
+
+var qtip = require("../node_modules/qtip2/dist/jquery.qtip.min.js");
+var css  = require("../node_modules/qtip2/dist/jquery.qtip.min.css");
+//console.log(css);
+$.fn.qtip.zindex = 2147483649 + 1;
 
 //Start running when the window finishes loading
 window.addEventListener('load', function(){

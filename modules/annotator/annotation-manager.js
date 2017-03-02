@@ -24,7 +24,7 @@ class AnnotationManager {
         // If the last time requested is asked for again, just give back the cached result
         if(timeMS == this.lastTimeRequested){
             //console.log("Using cache");
-            return this.cachedResults;
+            return this.cached;
         }
         this.lastTimeRequested = timeMS;
 
@@ -33,8 +33,7 @@ class AnnotationManager {
             return item.data.beginTime <= timeMS && timeMS <= item.data.endTime;
         });
 
-        // Cache the results
-        this.cachedResults = filtered;
+        this.cached = filtered;
 
         return filtered;
     }

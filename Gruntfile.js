@@ -12,9 +12,7 @@ module.exports = function (grunt) {
                         debug: true
                     },
                     transform: [
-                        ["babelify", {
-                            loose: "all"
-                        }]
+                        
                     ]
                 },
                 files: {

@@ -62,6 +62,13 @@ class VideoAnnotator {
     OnTimeUpdate(time){
         let annotationsNow = this.annotationManager.AnnotationsAtTime(time);
 
+        if(annotationsNow.equals(this.lastAnnotationSet)){
+            //console.log("Skipping");
+            return;
+        }
+
+        this.lastAnnotationSet = annotationsNow;
+
         // Update the info container
         this.$info.html("<p>Showing " + annotationsNow.length + " annotations (" + this.annotationManager.annotations.length + " total).</p>");
         // Add each annotation to the readout
@@ -69,7 +76,7 @@ class VideoAnnotator {
             this.$info.append("<p><strong>Annotation " + (i + 1) + ":</strong><br>" + annotationsNow[i].ToHTML() + "</p>");
         }
 
-        this.$container.trigger("OnTimeUpdate", time);
+        this.$container.trigger("OnNewAnnotationSet", [annotationsNow]);
     }
 
 
