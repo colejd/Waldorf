@@ -22,9 +22,7 @@ class AnnotatorVideoPlayer {
         this.isFullscreen = false;
 
         // Play / pause the video when clicked.
-        this.$video.on("click", ()=>{
-            this.TogglePlayState();
-        });
+        this.$video.on("click", () => this.TogglePlayState());
 
         this.allowAutoFade = true;
         /// Inactivity timer for the mouse.
@@ -35,9 +33,7 @@ class AnnotatorVideoPlayer {
         this.idleSecondsBeforeFade = 3;
         this.fadeDuration = 300;
 
-        this.$container.mousemove(()=>{
-            this.OnMouseMove();
-        });
+        this.$container.mousemove(() => this.OnMouseMove());
         this.SetAutoFade(true);
 
         $(document).on(screenfull.raw.fullscreenchange, () => {
@@ -48,9 +44,9 @@ class AnnotatorVideoPlayer {
             this.$container.trigger("OnVideoReady");
         };
 
-        this.$video.on("timeupdate", (event) => {
+        this.videoElement.ontimeupdate = () => {
             this.OnTimeUpdate(this.videoElement.currentTime);
-        });
+        };
         
     }
 

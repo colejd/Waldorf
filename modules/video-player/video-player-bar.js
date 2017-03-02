@@ -12,25 +12,25 @@ class VideoPlayerBar {
         this.videoPlayingBeforeTimeScrub = false;
 
         // Hook up to events from video player
-        this.player.$container.on("OnVisibilityChange", (event, isVisible, duration)=>{
-            this.SetVisible(isVisible, duration);
-        });
+        this.player.$container.on("OnVisibilityChange", 
+            (event, isVisible, duration) => this.SetVisible(isVisible, duration)
+        );
 
-        this.player.$container.on("OnPlayStateChange", (event, playing) => {
-            this.OnPlayStateChange(playing);
-        });
+        this.player.$container.on("OnPlayStateChange", 
+            (event, playing) => this.OnPlayStateChange(playing)
+        );
 
-        this.player.$container.on("OnTimeUpdate", (event, time) => {
-            this.OnTimeUpdate(time);
-        });
+        this.player.$container.on("OnTimeUpdate", 
+            (event, time) => this.OnTimeUpdate(time)
+        );
 
-        this.player.$container.on("OnMuteStateChange", (event, muted) => {
-            this.OnMuteStateChange(muted);
-        });
+        this.player.$container.on("OnMuteStateChange", 
+            (event, muted) => this.OnMuteStateChange(muted)
+        );
 
-        this.player.$container.on("OnVolumeChange", (event, volume) => {
-            this.OnVolumeChange(volume);
-        });
+        this.player.$container.on("OnVolumeChange", 
+            (event, volume) => this.OnVolumeChange(volume)
+        );
         
     }
 
@@ -42,15 +42,11 @@ class VideoPlayerBar {
             max: 1.0,
             step: 0.001
         });
-        $seekSlider.on("slide", ()=>{
-            this.UpdateVideoTime();
-        });
-        $seekSlider.on("slidestart", ()=>{
-            this.TimeDragStarted();
-        });
-        $seekSlider.on("slidestop", ()=> {
+        $seekSlider.on("slide", () => this.UpdateVideoTime());
+        $seekSlider.on("slidestart", () => this.TimeDragStarted());
+        $seekSlider.on("slidestop", () => {
             this.TimeDragFinished();
-            this.UpdateVideoTime();  // Update visuals
+            this.UpdateVideoTime();
         });
         this.$container.append(this.$seekBar);
 
@@ -61,9 +57,7 @@ class VideoPlayerBar {
         this.$playButton = $("<div>Play</div>").button({
             icon: "ui-icon-play",
             showLabel: false
-        }).click(()=>{
-            this.player.TogglePlayState();
-        });
+        }).click(() => this.player.TogglePlayState());
         this.RegisterElement(this.$playButton, -4);
 
         // Time text
@@ -74,9 +68,7 @@ class VideoPlayerBar {
         this.$muteButton = $("<div>Mute</div>").button({
             icon: "ui-icon-volume-on",
             showLabel: false,
-        }).click(()=>{
-            this.player.ToggleMuteState();
-        });
+        }).click(() => this.player.ToggleMuteState());
         this.RegisterElement(this.$muteButton, -2);
 
         // Volume bar
@@ -86,18 +78,14 @@ class VideoPlayerBar {
             max: 1.0,
             value: 1.0,
             step: 0.05
-        }).on("slide", ()=>{
-            this.player.SetVolume(this.$volumeBar.slider("value"));
-        });
+        }).on("slide", (event, ui) => this.player.SetVolume(ui.value));
         this.RegisterElement(this.$volumeBar, -1);
 
         // Fullscreen button
         this.$fullScreenButton = $("<div>Fullscreen</div>").button({
             icon: "ui-icon-arrow-4-diag",
             showLabel: false
-        }).click(()=>{
-            this.player.ToggleFullscreen();
-        });
+        }).click(() => this.player.ToggleFullscreen());
         this.RegisterElement(this.$fullScreenButton, 2, 'flex-end');
         
         // Create empty element between left floating and right floating toolbar items to space them out properly

@@ -9,17 +9,9 @@ class PolygonOverlay {
         // Create the video overlay
         this.$videoOverlay = $("<div class='annotator-video-overlay'></div>").appendTo(this.annotator.player.$container);
         this.ResizeOverlay();
-        this.annotator.player.$container.on("OnFullscreenChange", (event, setFullscreen) => {
-            this.ResizeOverlay();
-        });
+        this.annotator.player.$container.on("OnFullscreenChange", (event, setFullscreen) => this.ResizeOverlay());
 
-        this.annotator.$container.on("OnNewAnnotationSet", (event, annotations)=>{
-            this.Update(annotations); 
-        });
-
-        // this.annotator.$container.on("OnTimeUpdate", (event, time) => {
-        //     console.log("Time update");
-        // });
+        this.annotator.$container.on("OnNewAnnotationSet", (event, annotations) => this.Update(annotations));
     }
 
     Update(annotations){
