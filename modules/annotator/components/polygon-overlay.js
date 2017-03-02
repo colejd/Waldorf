@@ -20,55 +20,47 @@ class PolygonOverlay {
         let polygons = annotations.map(annotation => JSON.parse(annotation.data["pointsArray"]));
         
         //Sort polygon order by size (ascending)
-    //    polygons.sort(function(a, b) {
-    //        return this.GetArea(a) > this.GetArea(b);
-    //    })
+        // polygons.sort(function(a, b) {
+        //     return this.GetArea(a) > this.GetArea(b);
+        // })
         
         for (let i = 0; i < polygons.length; i++) {
-            // Make a new child of polyParent and clip it
+
             let $poly = $("<div class='annotator-overlay-poly'></div>").appendTo(this.$videoOverlay);
-            //$poly.addClass("annotator-poly");
             $poly.clipPath(polygons[i], {
                 isPercentage: true,
                 svgDefId: 'annotatorPolySvg'
             });
+
+            this.AddTooltip($poly, annotations[i]);
             
-            // Configure tooltip
-            // $poly.tooltipster({
-            //     zIndex: this.baseZ + i,
-            //     updateAnimation: null,
-            //     animationDuration: 200,
-            //     delay: 0,
-            //     theme: 'tooltipster-borderless',
-            //     plugins: ['follower']
-            // });
-            // $poly.tooltipster('content', annotations[i].data["text"]);
-
-
-            $poly.qtip({ // Grab all elements with a title attribute
-                content: {
-                    text: annotations[i].data["text"]
-                },
-                position: {
-                    my: 'bottom right',  // Position my top left...
-                    at: 'top left', // at the bottom right of...
-                    target: 'mouse',
-                    adjust: {
-                        mouse: true
-                    },
-                    viewport: this.annotator.player.$container
-                },
-                hide: {
-                    delay: 0 // No hide delay by default
-                },
-                style: {
-                    classes: 'qtip-light qtip-rounded'
-                }
-            });
-                
             this.polyElements.push($poly);
-        
         }
+    }
+
+    AddTooltip($poly, annotation){
+        $poly.qtip({
+            content: {
+                title: annotation.metadata["id"],
+                text: annotation.data["text"]
+            },
+            position: {
+                my: 'bottom right',
+                at: 'top left',
+                target: 'mouse', // Follow the mouse
+                adjust: {
+                    mouse: true,
+                    method: "shift shift" // horizontal, vertical
+                },
+                viewport: this.annotator.player.$container
+            },
+            hide: {
+                delay: 0 // No hide delay by default
+            },
+            style: {
+                classes: 'qtip-light qtip-rounded'
+            }
+        });
     }
 
     Clear(){
