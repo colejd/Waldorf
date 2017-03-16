@@ -1,4 +1,4 @@
-# Waldorf [![Build Status](https://travis-ci.org/seieibob/MEP-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/MEP-Annotator)
+# Waldorf [![Build Status](https://travis-ci.org/seieibob/Media-Ecology-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/Media-Ecology-Annotator)
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
 
