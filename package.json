@@ -1,12 +1,12 @@
 {
-  "name": "annotator-frontend",
+  "name": "Waldorf",
   "author": "Jonathan Cole <joncole04412@gmail.com>",
   "description": "Description",
   "version": "0.0.2",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seieibob/MEP-Annotator"
+    "url": "https://github.com/seieibob/Waldorf"
   },
   "main": "dist/annotator-module.js",
   "private": true,

@@ -1,8 +1,8 @@
-# Annotator [![Build Status](https://travis-ci.org/seieibob/MEP-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/MEP-Annotator)
+# Waldorf [![Build Status](https://travis-ci.org/seieibob/MEP-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/MEP-Annotator)
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
 
-Annotator is a replacement video player for HTML5 videos which allows for 
+Waldorf is a replacement video player for HTML5 videos which allows for 
 viewing, creating, and modifying user-made annotations under the specification 
 of the [Media Ecology Project](https://sites.dartmouth.edu/mediaecology/). 
 

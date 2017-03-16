@@ -83,7 +83,7 @@ module.exports = function (grunt) {
                 options: {
                     archive: function () {
                         // Build zip file string here
-                        return "mep_annotator.zip";
+                        return "waldorf.zip";
                     }
                 },
                 files: [{

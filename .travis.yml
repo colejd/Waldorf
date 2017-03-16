@@ -17,7 +17,7 @@ script:
 deploy:
   provider: releases
   api_key: "$GITHUB_API_KEY"
-  file: "mep_annotator.zip"
+  file: "waldorf.zip"
   skip_cleanup: true
   on:
     tags: true
