@@ -1,9 +1,12 @@
 # Waldorf 
-[![Release](https://img.shields.io/github/release/seieibob/Waldorf.svg)](https://github.com/seieibob/waldorf/releases)
-[![Build Status](https://travis-ci.org/seieibob/Waldorf.svg?branch=master)](https://travis-ci.org/seieibob/Waldorf) 
-[![](https://img.shields.io/david/seieibob/Waldorf.svg)](https://david-dm.org/seieibob/waldorf)
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
+
+<p align="center">
+    <a href="https://github.com/seieibob/waldorf/releases"><img src="https://img.shields.io/github/release/seieibob/Waldorf.svg" alt="Release version"></img></a>
+    <a href="https://travis-ci.org/seieibob/Waldorf"><img src="https://travis-ci.org/seieibob/Waldorf.svg?branch=master" alt="Build status"></img></a>
+    <a href="https://david-dm.org/seieibob/Waldorf"><img src="https://img.shields.io/david/seieibob/Waldorf.svg" alt="Dependency status"></img></a>
+</p>
 
 Waldorf is a replacement video player for HTML5 videos which allows for 
 viewing, creating, and modifying user-made annotations under the specification 
