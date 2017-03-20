@@ -1,4 +1,7 @@
-# Waldorf [![Build Status](https://travis-ci.org/seieibob/Media-Ecology-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/Media-Ecology-Annotator)
+# Waldorf 
+[![Release](https://img.shields.io/github/release/seieibob/Statler.svg)](https://github.com/seieibob/statler/releases)
+[![Build Status](https://travis-ci.org/seieibob/Media-Ecology-Annotator.svg?branch=master)](https://travis-ci.org/seieibob/Media-Ecology-Annotator) 
+[![](https://img.shields.io/david/seieibob/statler.svg)](https://david-dm.org/seieibob/statler)
 
 ![Media Ecology Project Image](/media/cropped-mep_banner511.png)
 
