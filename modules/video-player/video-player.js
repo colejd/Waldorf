@@ -1,7 +1,8 @@
 import { VideoPlayerBar } from "./video-player-bar.js";
-import * as screenfull from "screenfull";
+//import * as screenfull from "screenfull";
 
 //import 'jquery-ui/dist/jquery-ui.js';
+let screenfull = require('screenfull');
 
 class AnnotatorVideoPlayer {
     constructor($video){
@@ -16,10 +17,6 @@ class AnnotatorVideoPlayer {
 
         // Hook up events
         this.HookUpEvents();
-
-        // Need to manually keep track of fullscreen state since 
-        // screenfull isn't working for this purpose
-        this.isFullscreen = false;
 
         // Play / pause the video when clicked.
         this.$video.on("click", () => this.TogglePlayState());
@@ -36,8 +33,9 @@ class AnnotatorVideoPlayer {
         this.$container.mousemove(() => this.OnMouseMove());
         this.SetAutoFade(true);
 
-        $(document).on(screenfull.raw.fullscreenchange, () => {
-            this.$container.trigger("OnFullscreenChange", this.isFullscreen);
+        screenfull.onchange(() => {
+            this.OnFullscreenChange();
+            this.$container.trigger("OnFullscreenChange");
         });
 
         this.videoElement.onloadedmetadata = () => {
@@ -107,17 +105,16 @@ class AnnotatorVideoPlayer {
     }
 
     ToggleFullscreen(){
-        if(this.isFullscreen){
-            screenfull.exit();
-            this.$container.removeClass("-webkit-full-screen");
-        }
-        else{
-            screenfull.request(this.$container[0]);
+        screenfull.toggle(this.$container[0]);
+    }
+
+    OnFullscreenChange(){
+        if(screenfull.isFullscreen){
             this.$container.addClass("-webkit-full-screen");
         }
-        this.isFullscreen = !this.isFullscreen;
-
-        //this.$container.trigger("OnFullscreenChange", this.isFullscreen);
+        else{
+            this.$container.removeClass("-webkit-full-screen");
+        }
     }
 
     /**

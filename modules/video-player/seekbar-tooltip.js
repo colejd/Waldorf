@@ -7,7 +7,7 @@ class SeekbarTooltip {
 
         this.$tooltip = $("<div class='annotator-seekbar-tooltip'></div>").appendTo($parent);
         this.text = "Test";
-        this.$content = $("<p class='annotator-seekbar-tooltip-content'>" + this.text + "</p>").appendTo(this.$tooltip);
+        this.$content = $("<p>" + this.text + "</p>").appendTo(this.$tooltip);
         
         this.hoverOffset = -10;
         this.padding = 5;

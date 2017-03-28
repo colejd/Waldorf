@@ -20,13 +20,15 @@
     "grunt-contrib-compress": "^1.4.1",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-extract-sourcemap": "^0.1.19"
+    "grunt-extract-sourcemap": "^0.1.19",
+    "uglifyify": "^3.0.4"
   },
   "dependencies": {
     "clip-path-polygon": "^0.1.11",
     "jquery-ui": "^1.12.1",
     "qtip2": "^3.0.3",
-    "screenfull": "^3.0.2"
+    "screenfull": "^3.0.2",
+    "select2": "github:select2/select2"
   },
   "scripts": {
     "test": "grunt test"
@@ -34,13 +36,27 @@
   "browserify": {
     "transform": [
       "browserify-css",
-      "browserify-shim",
-      ["babelify", {
+      "browserify-shim", [
+        "babelify",
+        {
           "loose": "all"
-      }]
+        }
+      ]
     ]
   },
   "browserify-shim": {
-    "jquery": "global:jquery"
+    "jquery": "global:$",
+    "clip-path-polygon": {
+      "exports": "jquery",
+      "depends": [
+        "global:$"
+      ]
+    },
+    "select2": {
+      "exports": "jquery",
+      "depends": [
+        "global:$"
+      ]
+    }
   }
 }

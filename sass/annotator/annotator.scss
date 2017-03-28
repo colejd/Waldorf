@@ -21,9 +21,40 @@
     }
 }
 
+.annotator-edit-overlay{
+    position: absolute;
+    top: 0px;
+    color: #FFF;
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    z-index: 2147483647;
+    pointer-events: none;
+
+    //@if ($debug){
+        background-color: rgba(121, 221, 121, 0.3);
+    //}
+}
+
 .annotator-overlay-poly {
     position: absolute;
     background-color: rgba(0, 118, 255, 0.55);
+    
+/*    position: absolute;*/
+    top: 0px;
+    color: #FFF;
+    text-align: center;
+    font-size: 20px;
+    width: 100%;
+    height: 100%;
+    z-index: 2147483648;
+    pointer-events: all;
+}
+
+.annotator-edit-poly {
+    position: absolute;
+    background-color: rgba(255, 118, 0, 0.55);
     
 /*    position: absolute;*/
     top: 0px;
@@ -79,4 +110,61 @@
         margin: 0px;
         padding: 10px;
     }
+}
+
+
+// POST interface
+
+.annotator-vp-post {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 5px;
+	opacity: 1;
+/*    height: 30px;*/
+	transition: opacity .3s;
+    background-color: rgba(52, 52, 52, 0.67);
+    cursor: default;
+    z-index: 2147483648;
+}
+
+.annotator-vp-post .ui-field-contain {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.annotator-vp-post textarea {
+    height: 1.5em;
+    resize: vertical;
+}
+
+.annotator-vp-post label {
+    font-family: Verdana, Geneva, sans-serif;
+    color: #ffffff;
+    user-select: none;
+    font-size: 0.8em;
+    padding-right: 5px;
+}
+
+.annotator-vp-post input {
+    font-size: 0.8em;
+}
+
+.annotator-vp-click-surface {
+    z-index: 2147483648;
+    pointer-events: auto;
+    //box-shadow: inset 0 0 0px 1px rgb(255, 0, 0);
+    //background-color: #FFF; //Should be invisible.
+}
+
+.annotator-vp-click-surface .breadcrumb{
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    background: #ccc;
+/*    background: rgba(204, 204, 204, 0);*/
+    border: 1px solid #000;
+    margin: 0px;
+    padding: 0px;
 }

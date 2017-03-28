@@ -109,10 +109,10 @@ class VideoPlayerBar {
 
     SetVisible(isVisible, duration){
         //console.log(isVisible + " " + duration);
+        this.$container.stop(true, true);
         if(isVisible){
             this.$container.fadeTo(duration, 1.0);
         } else {
-            this.$container.stop(true, true);
             this.$container.fadeTo(duration, 0.0);
         }
     }

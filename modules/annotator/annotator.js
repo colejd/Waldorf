@@ -3,17 +3,21 @@ import { AnnotationManager } from "./annotation-manager.js";
 import { TickBar } from "./components/tick-bar.js";
 import { PolygonOverlay } from "./components/polygon-overlay.js";
 import { preferences } from "../utils/preference-manager.js";
+import { AnnotationGUI } from "./components/annotation-gui.js";
 
 class VideoAnnotator {
-    constructor(player, serverURL){
+    constructor(player, serverURL, tagsURL){
         console.log("[Annotator] created for video.");
+
+        this.serverURL = serverURL;
+        this.tagsURL = tagsURL;
         
         this.player = player;
         this.Wrap();
         this.PopulateControls();
 
-        this.server = new ServerInterface();
-        this.server.SetBaseURL(serverURL);
+        this.server = new ServerInterface(this);
+        this.server.SetBaseURL(this.serverURL);
         
         this.annotationManager = new AnnotationManager();
 
@@ -26,9 +30,16 @@ class VideoAnnotator {
             this.OnTimeUpdate(time);
         });
 
-    }
+        this.$container.on("OnPolyClicked", (event, annotation) => {
+            // Edit a poly when clicked, but only if the editor isn't already open
+            if(!this.gui.open){
+                this.gui.BeginEditing(annotation);
+            }
+        });
 
-    Preload(){
+        this.gui.$container.on("OnGUIClosed", (event) => {
+            this.$addAnnotationButton.button("enable");
+        });
 
     }
 
@@ -51,6 +62,18 @@ class VideoAnnotator {
 
         // Create the info container
         this.$info = $("<div class='annotator-info'></div>").appendTo(this.$container);
+
+        // Inject the annotation edit button into the toolbar
+        this.$addAnnotationButton = $("<div>Add New Annotation</div>").button({
+            icon: "ui-icon-plus",
+            showLabel: false
+        }).click(() => {
+            this.$addAnnotationButton.button("disable");
+            this.gui.BeginEditing();
+        });
+        this.player.controlBar.RegisterElement(this.$addAnnotationButton, 1, 'flex-end');
+
+        this.gui = new AnnotationGUI(this);
 
     }
 

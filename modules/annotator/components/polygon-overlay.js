@@ -1,10 +1,9 @@
-require('clip-path-polygon');
-
 class PolygonOverlay {
     constructor(annotator){
         this.annotator = annotator;
         this.polyElements = [];
         this.baseZ = 2147483649;
+        this.lastAnnotations = [];
 
         // Create the video overlay
         this.$videoOverlay = $("<div class='annotator-video-overlay'></div>").appendTo(this.annotator.player.$container);
@@ -17,28 +16,49 @@ class PolygonOverlay {
     Update(annotations){
         this.Clear();
 
-        let polygons = annotations.map(annotation => JSON.parse(annotation.data["pointsArray"]));
+        // let prevSet = new Set(this.lastAnnotations);
+        // let newSet = new Set(annotations);
+
+        // // in newSet and not in prevSet
+        // let toAdd = new Set(
+        //     [...newSet].filter(x => !prevSet.has(x)));
+
+        // // in prevAnnotations and not in annotations
+        // let toDestroy = new Set(
+        //     [...prevSet].filter(x => !newSet.has(x)));
+
+        // console.log(Array.from(toAdd));
+        // console.log(Array.from(toDestroy));
         
         //Sort polygon order by size (ascending)
         // polygons.sort(function(a, b) {
         //     return this.GetArea(a) > this.GetArea(b);
         // })
         
-        for (let i = 0; i < polygons.length; i++) {
-
+        for (let i = 0; i < annotations.length; i++) {
+            // Create the poly object
             let $poly = $("<div class='annotator-overlay-poly'></div>").appendTo(this.$videoOverlay);
-            $poly.clipPath(polygons[i], {
+            // Parse the points array from the annotation
+            let pointsData = JSON.parse(annotations[i].data["pointsArray"]);
+
+            $poly.clipPath(pointsData, {
                 isPercentage: true,
                 svgDefId: 'annotatorPolySvg'
+            });
+            $poly.click(() => {
+                this.annotator.$container.trigger("OnPolyClicked", annotations[i]);
             });
 
             this.AddTooltip($poly, annotations[i]);
             
             this.polyElements.push($poly);
         }
+
+        //this.lastAnnotations = annotations;
     }
 
     AddTooltip($poly, annotation){
+        $.fn.qtip.zindex = this.baseZ+ 1;
         $poly.qtip({
             content: {
                 title: annotation.metadata["id"],
@@ -66,6 +86,7 @@ class PolygonOverlay {
     Clear(){
         // Clear all the polygons from the DOM
         for(let i = 0; i < this.polyElements.length; i++){
+            this.polyElements[i].data("qtip").destroy(true);
             this.polyElements[i].remove();
         }
         
