@@ -78,7 +78,7 @@ class PolygonOverlay {
                 delay: 0 // No hide delay by default
             },
             style: {
-                classes: 'qtip-light qtip-rounded'
+                classes: 'qtip-dark qtip-rounded annotator-qtip'
             }
         });
     }

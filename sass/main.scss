@@ -2,6 +2,10 @@
 
 @import "settings.scss";
 
+// Vendor
+@import "vendor/qtip2.scss";
+@import "vendor/select2.scss";
+
 // Video player
 @import "video-player/video-player.scss";
 @import "video-player/video-player-bar.scss";
@@ -9,4 +13,3 @@
 
 // Annotator
 @import "annotator/annotator.scss";
-@import "annotator/select2.scss";
