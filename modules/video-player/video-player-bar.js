@@ -56,8 +56,8 @@ class VideoPlayerBar {
         this.$container.append(this.$seekProgress);
 
         // Play button
-        this.$playButton = $("<div>Play</div>").button({
-            icon: "ui-icon-play",
+        this.$playButton = $("<button>Play</button>").button({
+            icon: "fa fa-play",
             showLabel: false
         }).click(() => this.player.TogglePlayState());
         this.RegisterElement(this.$playButton, -4);
@@ -68,8 +68,8 @@ class VideoPlayerBar {
         this.RegisterElement(this.$timeText, -3);
 
         // Mute button
-        this.$muteButton = $("<div>Mute</div>").button({
-            icon: "ui-icon-volume-on",
+        this.$muteButton = $("<button>Mute</button>").button({
+            icon: "fa fa-volume-up",
             showLabel: false,
         }).click(() => this.player.ToggleMuteState());
         this.RegisterElement(this.$muteButton, -2);
@@ -85,8 +85,8 @@ class VideoPlayerBar {
         this.RegisterElement(this.$volumeBar, -1);
 
         // Fullscreen button
-        this.$fullScreenButton = $("<div>Fullscreen</div>").button({
-            icon: "ui-icon-arrow-4-diag",
+        this.$fullScreenButton = $("<button>Fullscreen</button>").button({
+            icon: "fa fa-arrows-alt",
             showLabel: false
         }).click(() => this.player.ToggleFullscreen());
         this.RegisterElement(this.$fullScreenButton, 2, 'flex-end');
@@ -144,7 +144,7 @@ class VideoPlayerBar {
 
     OnPlayStateChange(playing){
         this.$playButton.button("option", {
-            icon: playing ? "ui-icon-pause" : "ui-icon-play"
+            icon: playing ? "fa fa-pause" : "fa fa-play"
         });
     }
 
@@ -164,7 +164,7 @@ class VideoPlayerBar {
 
     OnMuteStateChange(muted){
         this.$muteButton.button("option", {
-            icon: muted ? "ui-icon-volume-on" : "ui-icon-volume-off"
+            icon: muted ? "fa fa-volume-up" : "fa fa-volume-off"
         });
     }
 

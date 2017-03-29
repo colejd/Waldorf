@@ -64,8 +64,8 @@ class VideoAnnotator {
         this.$info = $("<div class='annotator-info'></div>").appendTo(this.$container);
 
         // Inject the annotation edit button into the toolbar
-        this.$addAnnotationButton = $("<div>Add New Annotation</div>").button({
-            icon: "ui-icon-plus",
+        this.$addAnnotationButton = $("<button>Add New Annotation</button>").button({
+            icon: "fa fa-plus",
             showLabel: false
         }).click(() => {
             this.$addAnnotationButton.button("disable");
