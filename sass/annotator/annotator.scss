@@ -137,6 +137,10 @@
 .annotator-vp-post textarea {
     height: 1.5em;
     resize: vertical;
+    padding-top: 5px;
+    padding-left: 5px;
+    font-family: "system-ui";
+    font-size: 16px;
 }
 
 .annotator-vp-post label {
