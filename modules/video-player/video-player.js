@@ -122,10 +122,8 @@ class AnnotatorVideoPlayer {
      */
     OnMouseMove(){
         // Reset the timer
-        if(this.mouseTimer){
-            clearTimeout(this.mouseTimer);
-            this.mouseTimer = 0;
-        }
+        clearTimeout(this.mouseTimer);
+        this.mouseTimer = 0;
 
         // Restart fading if allowed to
         if(this.allowAutoFade){
@@ -148,16 +146,16 @@ class AnnotatorVideoPlayer {
     }
 
     SetAutoFade(allow) {
-        // If we're stopping autofade and the animation is running,
-        // cancel it. Then reset the timer
-        if(!allow && this.mouseTimer){
-            clearTimeout(this.mouseTimer);
-            this.mouseTimer = 0;
-            this.SetVisible(true);
-        }
-        
         this.allowAutoFade = allow;
+        
+        // Reset the mouse timer
+        clearTimeout(this.mouseTimer);
+        this.mouseTimer = 0;
 
+        // Make elements visible
+        this.SetVisible(true);
+
+        // Restart the fading behavior if desired
         if(allow){
             this.RestartFading();
         }
