@@ -14,3 +14,7 @@ import "clip-path-polygon";
 
 //let screenfull = require('screenfull');
 //import screenfull from "screenfull";
+
+// CDN resources
+// Font-Awesome
+$("head").append($("<script src='https://use.fontawesome.com/a703e2e5bf.js'></script>"));

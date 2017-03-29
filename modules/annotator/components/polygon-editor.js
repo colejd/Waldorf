@@ -31,11 +31,12 @@ class PolygonEditor {
         this.$postToolbar.append($("<div><p style='color:white'>Edit Polygon</p></div>").css("flex-grow", 1).css("order", 0));
 
         // Create the confirm button
-        this.$confirmButton = $("<div>Finish polygon</div>").button({
-            icon: "ui-icon-check",
+        this.$confirmButton = $("<button>Finish polygon</button>").button({
+            icon: "fa fa-check",
             showLabel: false
         });
         this.$confirmButton.attr('title', "Finish polygon");
+        this.$confirmButton.addClass("annotator-confirm-button");
         this.$confirmButton.click(() => {
             this.Done();
             this.annotator.$container.trigger("OnPolygonEditingEnded");
@@ -43,10 +44,11 @@ class PolygonEditor {
         this.RegisterElement(this.$confirmButton, this.$postToolbar, 2, 'flex-end');
 
         // Create the cancel button
-        this.$cancelButton = $("<div>Cancel polygon editing</div>").button({
-            icon: "ui-icon-close",
+        this.$cancelButton = $("<button>Cancel polygon editing</button>").button({
+            icon: "fa fa-remove",
             showLabel: false
         });
+        this.$cancelButton.addClass("annotator-cancel-button");
         this.$cancelButton.attr('title', "Cancel polygon editing");
         this.$cancelButton.click(() => {
             //Restore the original state
@@ -94,6 +96,7 @@ class PolygonEditor {
             this.breadcrumbs.splice(this.breadcrumbs.indexOf($breadcrumb), 1);
             this.UpdatePolyClipping();
         });
+        $breadcrumb.draggable({ containment: "parent" });
         
         this.breadcrumbs.push($breadcrumb);
     }
@@ -234,6 +237,9 @@ class PolygonEditor {
 
     UpdatePolyClipping(){
         if(this.breadcrumbs.length < 3){
+            this.$poly.clipPath([], {
+                svgDefId: 'annotatorPolyEditorSvg'
+            });
             return;
         }
         let orderedPoints = this.GetClockwiseOrdering();

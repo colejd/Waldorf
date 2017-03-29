@@ -82,8 +82,8 @@ class AnnotationGUI {
         this.RegisterElement($timeEndContainer, this.$postToolbar, -2);
         
         // Make "Edit polygon" button
-        let $editPolyButton = $("<div>Edit Polygon</div>").button({
-            icon: "ui-icon-pencil",
+        let $editPolyButton = $("<button>Edit Polygon</button>").button({
+            icon: "fa fa-pencil",
             showLabel: false
         }).click(() => {
             this.SetVisible(false);
@@ -93,8 +93,8 @@ class AnnotationGUI {
         this.RegisterElement($editPolyButton, this.$postToolbar, -1);
 
         // Make delete button
-        this.$deleteButton = $("<div>Delete Annotation</div>").button({
-            icon: "ui-icon-close",
+        this.$deleteButton = $("<button>Delete Annotation</button>").button({
+            icon: "fa fa-bomb",
             showLabel: false
         });
         this.$deleteButton.css("margin-right", "15px");
@@ -107,22 +107,24 @@ class AnnotationGUI {
         this.RegisterElement(this.$deleteButton, this.$postToolbar, 1, 'flex-end');
 
         // Make cancel button
-        let $cancelButton = $("<div>Cancel Annotation Editing</div>").button({
-            icon: "ui-icon-cancel",
+        let $cancelButton = $("<button>Cancel Annotation Editing</button>").button({
+            icons: {primary: 'fa fa-remove'},
             showLabel: false
         });
         $cancelButton.attr('title', "Cancel annotation editing");
+        $cancelButton.addClass("annotator-cancel-button");
         $cancelButton.click(() => {
             this.Close();
         });
         this.RegisterElement($cancelButton, this.$postToolbar, 2, 'flex-end');
         
         // Make "Submit Annotation" button
-        let $submitButton = $("<div>Submit Annotation</div>").button({
-            icon: "ui-icon-check",
+        let $submitButton = $("<button>Submit Annotation</button>").button({
+            icons: {primary: 'fa fa-check'},
             showLabel: false
         });
         $submitButton.attr('title', "Save annotation to database");
+        $submitButton.addClass("annotator-confirm-button");
         $submitButton.click(() => {
             this.CommitAnnotationToServer(() => {
                 this.Close();
@@ -131,17 +133,22 @@ class AnnotationGUI {
         this.RegisterElement($submitButton, this.$postToolbar, 3, 'flex-end');
 
         // Make tags field
-        // if ($.fn.select2) { 
-        //     console.log("Select2 exists");
-        // } else {
-        //     console.log("Select2 does not exist")
-        // }
         this.$tagsField = $('<select class="form-control" multiple="multiple"></select>');
         this.$tagsField.width("100%");
         this.RegisterElement(this.$tagsField, this.$postToolbar2, -1);
         this.$tagsField.select2({
+            tags: true,
             placeholder: "Tags",
-            ajax: this.GetTagsQuery()
+            ajax: this.GetTagsQuery(),
+            selectOnBlur: true,
+            // Allow manually entered text in drop down.
+            createTag: function (params) {
+                return {
+                    id: params.term,
+                    text: params.term,
+                    newOption: true
+                }
+            }
         });
         // Add custom class for bringing the dropdown to the front (fullscreen fix)
         this.$tagsField.data('select2').$dropdown.addClass("select2-dropdown-annotator");
@@ -241,6 +248,11 @@ class AnnotationGUI {
             this.$timeStartField.val(GetFormattedTime(annotation.data.beginTime / 1000));
             this.$timeEndField.val(GetFormattedTime(annotation.data.endTime / 1000));
             this.$textField.val(annotation.data.text);
+
+            for(let tag of annotation.data.tags){
+                this.$tagsField.append("<option value='"+tag+"' selected>"+tag+"</option>");
+                this.$tagsField.trigger("change");
+            }
 
             this.polyEditor.InitPoly(annotation.data["pointsArray"]);
 

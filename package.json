@@ -38,8 +38,15 @@
   },
   "browserify": {
     "transform": [
-      ["babelify", { "loose": "all" }],
-      [ "browserify-shim" ],
+      [
+        "babelify",
+        {
+          "loose": "all"
+        }
+      ],
+      [
+        "browserify-shim"
+      ],
       "browserify-css"
     ]
   }
