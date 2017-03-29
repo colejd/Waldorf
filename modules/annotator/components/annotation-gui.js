@@ -235,6 +235,7 @@ class AnnotationGUI {
             this.$deleteButton.button("enable");
 
             this.originalAnnotation = annotation;
+            console.log(annotation);
 
             console.log("Populated from an existing annotation");
             this.$timeStartField.val(GetFormattedTime(annotation.data.beginTime / 1000));
@@ -264,17 +265,28 @@ class AnnotationGUI {
     }
 
     GetAnnotationObject(){
-        return {
-            data: {
-                text: this.$textField.val(),
-                beginTime: Math.round(GetSecondsFromHMS(this.$timeStartField.val()) * 1000),
-                endTime: Math.round(GetSecondsFromHMS(this.$timeEndField.val()) * 1000),
-                pointsArray: this.polyEditor.GetJSON()
-            },
-            
-            //TODO: This will probably cause problems with null values
-            metadata: this.originalAnnotation.metadata
+        let obj = {}
+        obj.data = {
+            text: this.$textField.val(),
+            beginTime: Math.round(GetSecondsFromHMS(this.$timeStartField.val()) * 1000),
+            endTime: Math.round(GetSecondsFromHMS(this.$timeEndField.val()) * 1000),
+            pointsArray: this.polyEditor.GetJSON()
         }
+        
+
+        if (this.originalAnnotation != null){
+            obj.metadata = this.originalAnnotation.metadata;
+        }
+        else{
+            obj.metadata = {
+                //id: "",
+                location: this.annotator.player.videoElement.currentSrc
+                //title: ""
+            }
+        
+        }
+
+        return obj;
     }
     
 
