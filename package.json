@@ -28,35 +28,19 @@
     "jquery-ui": "^1.12.1",
     "qtip2": "^3.0.3",
     "screenfull": "^3.0.2",
-    "select2": "github:select2/select2"
+    "select2": "^4.0.3"
   },
   "scripts": {
     "test": "grunt test"
   },
+  "browserify-shim": {
+    "jquery": "global:$"
+  },
   "browserify": {
     "transform": [
-      "browserify-css",
-      "browserify-shim", [
-        "babelify",
-        {
-          "loose": "all"
-        }
-      ]
+      ["babelify", { "loose": "all" }],
+      [ "browserify-shim" ],
+      "browserify-css"
     ]
-  },
-  "browserify-shim": {
-    "jquery": "global:$",
-    "clip-path-polygon": {
-      "exports": "jquery",
-      "depends": [
-        "global:$"
-      ]
-    },
-    "select2": {
-      "exports": "jquery",
-      "depends": [
-        "global:$"
-      ]
-    }
   }
 }
