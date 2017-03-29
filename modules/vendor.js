@@ -17,4 +17,4 @@ import "clip-path-polygon";
 
 // CDN resources
 // Font-Awesome
-$("head").append($("<script src='https://use.fontawesome.com/a703e2e5bf.js'></script>"));
+//$("head").append($("<script src='https://use.fontawesome.com/a703e2e5bf.js'></script>"));
