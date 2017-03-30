@@ -279,12 +279,17 @@ class AnnotationGUI {
     }
 
     GetAnnotationObject(){
+
+        // Extract tag text from tags field
+        let tags = this.$tagsField.select2("data").map((item) => { return item.text; });
+
         let obj = {}
         obj.data = {
             text: this.$textField.val(),
             beginTime: Math.round(GetSecondsFromHMS(this.$timeStartField.val()) * 1000),
             endTime: Math.round(GetSecondsFromHMS(this.$timeEndField.val()) * 1000),
-            pointsArray: this.polyEditor.GetJSON()
+            pointsArray: this.polyEditor.GetJSON(),
+            tags: tags
         }
         
 

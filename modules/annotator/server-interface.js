@@ -38,7 +38,8 @@ class ServerInterface {
             'semantic_tag': 'Semantic tag text', 
             'beginTime': annotation.data.beginTime, // ms as int
             'endTime': annotation.data.endTime, // ms as int
-            'pointsArray': annotation.data.pointsArray // Stringified array
+            'pointsArray': annotation.data.pointsArray, // Stringified array
+            'tags': annotation.data.tags
         }
         
         //data = JSON.stringify(data);
@@ -81,6 +82,7 @@ class ServerInterface {
             'beginTime': annotation.data.beginTime, // ms as int
             'endTime': annotation.data.endTime, // ms as int
             'pointsArray': annotation.data.pointsArray, // Stringified array
+            'tags': annotation.data.tags,
             'id': annotation.metadata.id
         }
         
