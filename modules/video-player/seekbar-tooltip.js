@@ -18,7 +18,7 @@ class SeekbarTooltip {
             this.Show();
 
             //Add and update tooltip on mouse movement to show where the mouse is hovering.
-            let mouseX = event.pageX - player.$container.offset().left
+            let mouseX = event.pageX - player.$container.offset().left;
             let percent = mouseX / this.$parent.width();
             let timeAtCursor = percent * player.videoElement.duration;
             this.Move(mouseX, 0);
