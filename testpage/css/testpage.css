@@ -4,4 +4,6 @@ p {
 
 body {
     margin: 0;
+    display: inline-block;
+    max-width: 100%;
 }
