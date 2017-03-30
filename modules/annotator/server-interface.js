@@ -30,7 +30,7 @@ class ServerInterface {
         let annotation = this.annotator.gui.GetAnnotationObject();
         //console.log(annotation);
         
-        let data = {
+        let anno_data = {
             'annotation': annotation.data.text, 
             'video_title': annotation.metadata.title, 
             'video_author': annotation.metadata.userName, 
@@ -43,12 +43,12 @@ class ServerInterface {
         }
         
         //data = JSON.stringify(data);
-        console.log(data);
+        //console.log(anno_data);
         
         $.ajax({
             url: this.baseURL + "/annotators/addAnnotation",
             type: "POST",
-            data: data,
+            data: anno_data,
             async: true,
             //context: this,
             success: (data) => {
@@ -59,7 +59,7 @@ class ServerInterface {
                 //thisRef.loadedAnnotations.push(annotation);
                 //this.trigger("annotationsUpdated", this.loadedAnnotations);
                 // We did it!
-                if(callback) callback(annotation);
+                if(callback) callback(annotation, data);
             },
             error: (data) => {
                 console.error("Failed to post new annotation! Reason: " + request.responseText);
@@ -73,7 +73,7 @@ class ServerInterface {
         let annotation = this.annotator.gui.GetAnnotationObject();
         console.log(annotation);
         
-        let data = {
+        let anno_data = {
             'annotation': annotation.data.text, 
             'video_title': annotation.metadata.title, 
             'video_author': annotation.metadata.userName, 
@@ -87,12 +87,12 @@ class ServerInterface {
         }
         
         //data = JSON.stringify(data);
-        console.log(data);
+        console.log(anno_data);
         
         $.ajax({
             url: this.baseURL + "/annotators/editAnnotation",
             type: "POST",
-            data: data,
+            data: anno_data,
             async: true,
             //context: this,
             success: (data) => {
@@ -103,7 +103,7 @@ class ServerInterface {
                 //thisRef.loadedAnnotations.push(annotation);
                 //this.trigger("annotationsUpdated", this.loadedAnnotations);
                 // We did it!
-                if(callback) callback(annotation);
+                if(callback) callback(annotation, data);
             },
             error: (data) => {
                 console.error("Failed to edit the annotation! Reason: " + request.responseText);

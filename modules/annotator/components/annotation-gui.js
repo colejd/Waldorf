@@ -76,7 +76,8 @@ class AnnotationGUI {
         this.$deleteButton.css("margin-right", "15px");
         this.$deleteButton.attr('title', "Delete annotation");
         this.$deleteButton.click(() => {
-            this.annotator.server.DeleteAnnotation(this.originalAnnotation, () => {
+            this.annotator.server.DeleteAnnotation(this.originalAnnotation, (annotation) => {
+                this.annotator.DeregisterAnnotation(annotation);
                 this.Close();
             });
         });
@@ -102,7 +103,12 @@ class AnnotationGUI {
         $submitButton.attr('title', "Save annotation to database");
         $submitButton.addClass("annotator-confirm-button");
         $submitButton.click(() => {
-            this.CommitAnnotationToServer(() => {
+            this.CommitAnnotationToServer((annotation, data) => {
+                if(this.editMode){
+                    this.annotator.UpdateAnnotation(annotation);
+                } else {
+                    this.annotator.RegisterNewAnnotation(annotation, data);
+                }
                 this.Close();
             });
         });

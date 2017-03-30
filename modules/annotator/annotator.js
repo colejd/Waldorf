@@ -84,23 +84,64 @@ class VideoAnnotator {
     }
 
     OnTimeUpdate(time){
-        let annotationsNow = this.annotationManager.AnnotationsAtTime(time);
+        this.annotationsNow = this.annotationManager.AnnotationsAtTime(time);
 
-        if(annotationsNow.equals(this.lastAnnotationSet)){
+        if(this.annotationsNow.equals(this.lastAnnotationSet)){
             //console.log("Skipping");
             return;
         }
 
-        this.lastAnnotationSet = annotationsNow;
+        this.lastAnnotationSet = this.annotationsNow;
+
+        this.UpdateViews();
+    }
+
+    UpdateViews(){
+        this.annotationsNow = this.annotationManager.AnnotationsAtTime(this.player.videoElement.currentTime);
 
         // Update the info container
-        this.$info.html("<p>Showing " + annotationsNow.length + " annotations (" + this.annotationManager.annotations.length + " total).</p>");
+        let plural = this.annotationsNow.length == 1 ? "" : "s";
+        this.$info.html("<p>Showing " + this.annotationsNow.length + " annotation" + plural + " (" + this.annotationManager.annotations.length + " total).</p>");
         // Add each annotation to the readout
-        for (let i = 0; i < annotationsNow.length; i++){
-            this.$info.append("<p><strong>Annotation " + (i + 1) + ":</strong><br>" + annotationsNow[i].ToHTML() + "</p>");
+        for (let i = 0; i < this.annotationsNow.length; i++){
+            this.$info.append("<p><strong>Annotation " + (i + 1) + ":</strong><br>" + this.annotationsNow[i].ToHTML() + "</p>");
         }
 
-        this.$container.trigger("OnNewAnnotationSet", [annotationsNow]);
+        this.$container.trigger("OnNewAnnotationSet", [this.annotationsNow]);
+    }
+
+    RegisterNewAnnotation(annotation, data){
+        console.log(annotation);
+        console.log(data);
+        this.annotationManager.RegisterAnnotation(annotation);
+
+        // Throw event for listening objects (e.g. tick-bar)
+        this.$container.trigger("OnAnnotationRegistered", [annotation]);
+
+        // Update dependent views
+        this.UpdateViews();
+    }
+
+    UpdateAnnotation(annotation){
+        this.annotationManager.UpdateAnnotation(annotation);
+
+        // Throw event for listening objects (e.g. tick-bar)
+        this.$container.trigger("OnAnnotationRegistered", [annotation]);
+
+        // Update dependent views
+        this.UpdateViews();
+    }
+
+    DeregisterAnnotation(annotation){
+        this.annotationManager.RemoveAnnotation(annotation);
+        //this.annotationsNow = this.annotationManager.AnnotationsAtTime(this.player.videoElement.currentTime);
+
+        // Throw event for listening objects (e.g. tick-bar)
+        this.$container.trigger("OnAnnotationRemoved", [annotation]);
+
+        // Update dependent views
+        this.UpdateViews();
+
     }
 
 
