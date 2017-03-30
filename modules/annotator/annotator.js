@@ -33,6 +33,7 @@ class VideoAnnotator {
         this.$container.on("OnPolyClicked", (event, annotation) => {
             // Edit a poly when clicked, but only if the editor isn't already open
             if(!this.gui.open){
+                this.$addAnnotationButton.button("disable");
                 this.gui.BeginEditing(annotation);
             }
         });
