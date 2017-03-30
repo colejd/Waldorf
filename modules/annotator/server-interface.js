@@ -19,8 +19,8 @@ class ServerInterface {
                 console.log("Fetched " + data.annotations.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
                 callback(data);
             },
-            error: (data) => {
-                console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
+            error: (response) => {
+                console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\" - " + response.responseText + ".");
             }
         });
     }
@@ -61,8 +61,8 @@ class ServerInterface {
                 // We did it!
                 if(callback) callback(annotation, data);
             },
-            error: (data) => {
-                console.error("Failed to post new annotation! Reason: " + request.responseText);
+            error: (response) => {
+                console.error("Failed to post new annotation! Reason: " + response.responseText);
             }
 
         });
@@ -105,8 +105,8 @@ class ServerInterface {
                 // We did it!
                 if(callback) callback(annotation, data);
             },
-            error: (data) => {
-                console.error("Failed to edit the annotation! Reason: " + request.responseText);
+            error: (response) => {
+                console.error("Failed to edit the annotation! Reason: " + response.responseText);
             }
 
         });
@@ -132,8 +132,8 @@ class ServerInterface {
                 // We did it!
                 if(callback) callback(annotation);
             },
-            error: (data) => {
-                console.error("Failed to delete annotation! Reason: " + request.responseText);
+            error: (response) => {
+                console.error("Failed to delete annotation! Reason: " + response.responseText);
             }
 
         });
