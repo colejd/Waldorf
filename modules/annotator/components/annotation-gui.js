@@ -22,30 +22,6 @@ class AnnotationGUI {
 
     }
 
-    GetTagsQuery(){
-        return {
-            url: this.annotator.tagsURL,
-            dataType: 'json',
-            delay: 250,
-            cache: true,
-            processResults: function (data) {
-                // Parse the labels into the format expected by Select2
-                let tags = [];
-                let index = 1;
-                for(let term of data["terms"]){
-                    tags.push({
-                        id: index,
-                        text: term["rdfs:label"]
-                    });
-                    index++;
-                }
-                return {
-                    results: tags
-                };
-            }
-        }
-    }
-
     Create(){
         this.$container = $("<div class='annotator-vp-post'></div>").appendTo(this.annotator.player.$container);
         this.$postToolbar = $("<div class='flex-toolbar'></div>").appendTo(this.$container);
@@ -263,10 +239,6 @@ class AnnotationGUI {
         //this.breadcrumbs = [];
     }
 
-    ParseTags(){
-
-    }
-
     CommitAnnotationToServer(callback){
         if(this.editMode){
             console.log("Sending edited annotation to server...");
@@ -306,6 +278,30 @@ class AnnotationGUI {
         }
 
         return obj;
+    }
+
+    GetTagsQuery(){
+        return {
+            url: this.annotator.tagsURL,
+            dataType: 'json',
+            delay: 250,
+            cache: true,
+            processResults: function (data) {
+                // Parse the labels into the format expected by Select2
+                let tags = [];
+                let index = 1;
+                for(let term of data["terms"]){
+                    tags.push({
+                        id: index,
+                        text: term["rdfs:label"]
+                    });
+                    index++;
+                }
+                return {
+                    results: tags
+                };
+            }
+        }
     }
     
 
