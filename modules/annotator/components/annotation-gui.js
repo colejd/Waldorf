@@ -232,6 +232,7 @@ class AnnotationGUI {
             this.$timeStartField.val(GetFormattedTime(this.annotator.player.videoElement.currentTime));
             this.$timeEndField.val(GetFormattedTime(this.annotator.player.videoElement.duration));
             this.$textField.val("");
+            this.$tagsField.val("").trigger("change");
 
             this.polyEditor.InitPoly();
         }
@@ -248,6 +249,7 @@ class AnnotationGUI {
             this.$timeStartField.val(GetFormattedTime(annotation.data.beginTime / 1000));
             this.$timeEndField.val(GetFormattedTime(annotation.data.endTime / 1000));
             this.$textField.val(annotation.data.text);
+            this.$tagsField.val("").trigger("change");
 
             for(let tag of annotation.data.tags){
                 this.$tagsField.append("<option value='"+tag+"' selected>"+tag+"</option>");
