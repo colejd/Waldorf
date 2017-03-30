@@ -1,4 +1,5 @@
-$bar-bg-color:#e2e2e2;// rgba(0.1, 0.1, 0.1, 0.5);
+$bar-bg-color: #e2e2e2; //rgba(52, 52, 52, 0.67);
+$bar-text-color: #575757; //#ffffff;
 
 .video-player-toolbar {
     position: absolute;
@@ -18,7 +19,7 @@ $bar-bg-color:#e2e2e2;// rgba(0.1, 0.1, 0.1, 0.5);
         margin-left: 5px;
         margin-right: 5px;
         font-family: Verdana, Geneva, sans-serif;
-        color: #575757 !important;
+        color: $bar-text-color !important;
         user-select: none;
     }
 
