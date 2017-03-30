@@ -53,12 +53,6 @@ class ServerInterface {
             //context: this,
             success: (data) => {
                 console.log("Successfully posted new annotation.");
-
-                //TODO: reload annotator with the new annotation
-
-                //thisRef.loadedAnnotations.push(annotation);
-                //this.trigger("annotationsUpdated", this.loadedAnnotations);
-                // We did it!
                 if(callback) callback(annotation, data);
             },
             error: (response) => {
@@ -97,12 +91,6 @@ class ServerInterface {
             //context: this,
             success: (data) => {
                 console.log("Successfully edited the annotation.");
-
-                //TODO: reload annotator with the new annotation
-
-                //thisRef.loadedAnnotations.push(annotation);
-                //this.trigger("annotationsUpdated", this.loadedAnnotations);
-                // We did it!
                 if(callback) callback(annotation, data);
             },
             error: (response) => {
@@ -124,12 +112,6 @@ class ServerInterface {
             //context: this,
             success: (data) => {
                 console.log("Successfully deleted the annotation.");
-
-                //TODO: reload annotator with the new annotation
-
-                //thisRef.loadedAnnotations.push(annotation);
-                //this.trigger("annotationsUpdated", this.loadedAnnotations);
-                // We did it!
                 if(callback) callback(annotation);
             },
             error: (response) => {
