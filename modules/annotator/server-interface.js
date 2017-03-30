@@ -53,7 +53,8 @@ class ServerInterface {
             //context: this,
             success: (data) => {
                 console.log("Successfully posted new annotation.");
-                if(callback) callback(annotation, data);
+                annotation.metadata.id = data.id; // Append the ID given by the response
+                if(callback) callback(annotation);
             },
             error: (response) => {
                 console.error("Failed to post new annotation! Reason: " + response.responseText);

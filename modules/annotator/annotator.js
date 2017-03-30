@@ -110,9 +110,8 @@ class VideoAnnotator {
         this.$container.trigger("OnNewAnnotationSet", [this.annotationsNow]);
     }
 
-    RegisterNewAnnotation(annotation, data){
+    RegisterNewAnnotation(annotation){
         console.log(annotation);
-        console.log(data);
         this.annotationManager.RegisterAnnotation(annotation);
 
         // Throw event for listening objects (e.g. tick-bar)
