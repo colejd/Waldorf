@@ -45,6 +45,11 @@ class AnnotationGUI {
         this.$timeStartField.css("font-family", "Courier, monospace");
         this.$timeStartField.addClass("ui-widget ui-widget-content ui-corner-all");
         this.$timeStartField.attr('title', "Start time (hh:mm:ss)");
+        this.$timeStartField.on('keypress', function(event){
+            if (event.keyCode >= 48 && event.keyCode <= 58) //0-9 and colon
+                return true;
+            return false;
+        });
         this.RegisterElement($timeStartContainer, this.$postToolbar, -3);
         
         // Make "End time" label and field
@@ -55,6 +60,11 @@ class AnnotationGUI {
         this.$timeEndField.css("font-family", "Courier, monospace");
         this.$timeEndField.addClass("ui-widget ui-widget-content ui-corner-all");
         this.$timeEndField.attr('title', "End time (hh:mm:ss)");
+        this.$timeEndField.on('keypress', function(event){
+            if (event.keyCode >= 48 && event.keyCode <= 58) //0-9 and colon
+                return true;
+            return false;
+        });
         this.RegisterElement($timeEndContainer, this.$postToolbar, -2);
         
         // Make "Edit polygon" button
