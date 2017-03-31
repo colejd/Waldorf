@@ -182,8 +182,16 @@
     color: white;
 }
 
+.annotator-cancel-button:hover {
+    color: #F44336;
+}
+
 .annotator-confirm-button {
     border-color: #8BC34A;
     background-color: #8BC34A;
     color: white;
+}
+
+.annotator-confirm-button:hover {
+    color: #8BC34A;
 }
