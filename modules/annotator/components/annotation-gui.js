@@ -105,7 +105,6 @@ class AnnotationGUI {
         $submitButton.click(() => {
             this.CommitAnnotationToServer((annotation, oldID) => {
                 if(this.editMode){
-                    console.log(oldID + " to " + annotation.metadata.id);
                     this.annotator.UpdateAnnotation(annotation, oldID);
                 } else {
                     this.annotator.RegisterNewAnnotation(annotation);

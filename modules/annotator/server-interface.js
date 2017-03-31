@@ -66,7 +66,6 @@ class ServerInterface {
     EditAnnotation(callback){
         console.log("Posting annotation...");
         let annotation = this.annotator.gui.GetAnnotationObject();
-        console.log(annotation);
         
         let anno_data = {
             'annotation': annotation.data.text, 
@@ -80,9 +79,6 @@ class ServerInterface {
             'tags': annotation.data.tags,
             'id': annotation.metadata.id
         }
-        
-        //data = JSON.stringify(data);
-        console.log(anno_data);
 
         let oldID = anno_data.id;
         
@@ -96,7 +92,6 @@ class ServerInterface {
                 console.log("Successfully edited the annotation.");
                 console.log(annotation);
                 annotation.metadata.id = data.id; // Append the ID given by the response
-                console.log(oldID + " to " + annotation.metadata.id);
                 if(callback) callback(annotation, oldID);
             },
             error: (response) => {

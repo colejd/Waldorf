@@ -122,7 +122,6 @@ class VideoAnnotator {
     }
 
     UpdateAnnotation(annotation, oldID){
-        console.log(oldID + " to " + annotation.metadata.id);
         this.annotationManager.UpdateAnnotation(annotation, oldID);
 
         // Throw event for listening objects (e.g. tick-bar)
