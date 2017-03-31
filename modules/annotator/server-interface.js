@@ -28,7 +28,7 @@ class ServerInterface {
     PostAnnotation(callback){
         console.log("Posting annotation...");
         let annotation = this.annotator.gui.GetAnnotationObject();
-        //console.log(annotation);
+        console.log(annotation);
         
         let anno_data = {
             'annotation': annotation.data.text, 
@@ -64,7 +64,6 @@ class ServerInterface {
     }
 
     EditAnnotation(callback){
-        console.log("Posting annotation...");
         let annotation = this.annotator.gui.GetAnnotationObject();
         
         let anno_data = {
@@ -81,6 +80,8 @@ class ServerInterface {
         }
 
         let oldID = anno_data.id;
+
+        console.log("Modifying annotation " + oldID);
         
         $.ajax({
             url: this.baseURL + "/annotators/editAnnotation",
@@ -89,8 +90,8 @@ class ServerInterface {
             async: true,
             //context: this,
             success: (data) => {
-                console.log("Successfully edited the annotation.");
-                console.log(annotation);
+                console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
+                //console.log(annotation);
                 annotation.metadata.id = data.id; // Append the ID given by the response
                 if(callback) callback(annotation, oldID);
             },

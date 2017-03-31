@@ -125,8 +125,7 @@ class VideoAnnotator {
         this.annotationManager.UpdateAnnotation(annotation, oldID);
 
         // Throw event for listening objects (e.g. tick-bar)
-        this.$container.trigger("OnAnnotationRemoved", [annotation.metadata.id]);
-        this.$container.trigger("OnAnnotationRegistered", [annotation]);
+        this.$container.trigger("OnAnnotationUpdated", [annotation]);
 
         // Update dependent views
         this.UpdateViews();
