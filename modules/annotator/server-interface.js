@@ -20,7 +20,7 @@ class ServerInterface {
                 callback(data);
             },
             error: (response) => {
-                console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\" - " + response.responseText + ".");
+                console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
             }
         });
     }
@@ -57,7 +57,7 @@ class ServerInterface {
                 if(callback) callback(annotation);
             },
             error: (response) => {
-                console.error("Failed to post new annotation! Reason: " + response.responseText);
+                console.error("Failed to post new annotation!");
             }
 
         });
@@ -83,6 +83,8 @@ class ServerInterface {
         
         //data = JSON.stringify(data);
         console.log(anno_data);
+
+        let oldID = anno_data.id;
         
         $.ajax({
             url: this.baseURL + "/annotators/editAnnotation",
@@ -92,10 +94,13 @@ class ServerInterface {
             //context: this,
             success: (data) => {
                 console.log("Successfully edited the annotation.");
-                if(callback) callback(annotation, data);
+                console.log(annotation);
+                annotation.metadata.id = data.id; // Append the ID given by the response
+                console.log(oldID + " to " + annotation.metadata.id);
+                if(callback) callback(annotation, oldID);
             },
             error: (response) => {
-                console.error("Failed to edit the annotation! Reason: " + response.responseText);
+                console.error("Failed to edit the annotation!");
             }
 
         });
@@ -116,7 +121,7 @@ class ServerInterface {
                 if(callback) callback(annotation);
             },
             error: (response) => {
-                console.error("Failed to delete annotation! Reason: " + response.responseText);
+                console.error("Failed to delete annotation!");
             }
 
         });

@@ -121,10 +121,12 @@ class VideoAnnotator {
         this.UpdateViews();
     }
 
-    UpdateAnnotation(annotation){
-        this.annotationManager.UpdateAnnotation(annotation);
+    UpdateAnnotation(annotation, oldID){
+        console.log(oldID + " to " + annotation.metadata.id);
+        this.annotationManager.UpdateAnnotation(annotation, oldID);
 
         // Throw event for listening objects (e.g. tick-bar)
+        this.$container.trigger("OnAnnotationRemoved", [annotation.metadata.id]);
         this.$container.trigger("OnAnnotationRegistered", [annotation]);
 
         // Update dependent views
@@ -132,11 +134,11 @@ class VideoAnnotator {
     }
 
     DeregisterAnnotation(annotation){
-        this.annotationManager.RemoveAnnotation(annotation);
+        this.annotationManager.RemoveAnnotation(annotation.metadata.id);
         //this.annotationsNow = this.annotationManager.AnnotationsAtTime(this.player.videoElement.currentTime);
 
         // Throw event for listening objects (e.g. tick-bar)
-        this.$container.trigger("OnAnnotationRemoved", [annotation]);
+        this.$container.trigger("OnAnnotationRemoved", [annotation.metadata.id]);
 
         // Update dependent views
         this.UpdateViews();

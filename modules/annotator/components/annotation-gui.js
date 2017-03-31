@@ -103,11 +103,12 @@ class AnnotationGUI {
         $submitButton.attr('title', "Save annotation to database");
         $submitButton.addClass("annotator-confirm-button");
         $submitButton.click(() => {
-            this.CommitAnnotationToServer((annotation, data) => {
+            this.CommitAnnotationToServer((annotation, oldID) => {
                 if(this.editMode){
-                    this.annotator.UpdateAnnotation(annotation);
+                    console.log(oldID + " to " + annotation.metadata.id);
+                    this.annotator.UpdateAnnotation(annotation, oldID);
                 } else {
-                    this.annotator.RegisterNewAnnotation(annotation, data);
+                    this.annotator.RegisterNewAnnotation(annotation);
                 }
                 this.Close();
             });
@@ -283,7 +284,9 @@ class AnnotationGUI {
         
         }
 
-        return obj;
+        // Clone the object so we don't modify anything by changing this object
+        let clone = JSON.parse(JSON.stringify(obj))
+        return clone;
     }
 
     GetTagsQuery(){

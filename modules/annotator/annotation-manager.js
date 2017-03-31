@@ -18,12 +18,13 @@ class AnnotationManager {
     }
 
     RegisterAnnotation(jsonObject){
+        //console.log("Registering new annotation with ID " + jsonObject.metadata.id);
         let anno = new Annotation(jsonObject);
         this.annotations.push(anno);
     }
 
-    RemoveAnnotation(annotation){
-        let id = annotation.metadata.id;
+    RemoveAnnotation(id){
+        //console.log("Removing: " + id);
         this.annotations = this.annotations.filter((obj) => {
             return obj.metadata.id !== id;
         });
@@ -32,8 +33,9 @@ class AnnotationManager {
     /**
      * Update the given annotation in the stored array
      */
-    UpdateAnnotation(annotation){
-        this.RemoveAnnotation(annotation);
+    UpdateAnnotation(annotation, oldID){
+        //console.log("Updating annotation ID " + oldID + " to " + annotation.metadata.id);
+        this.RemoveAnnotation(oldID);
         this.RegisterAnnotation(annotation);
     }
 

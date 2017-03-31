@@ -16,7 +16,7 @@ class TickBar {
             (event, annotation) => this.LoadAnnotation(annotation));
 
         this.annotator.$container.on("OnAnnotationRemoved",
-            (event, annotation) => this.RemoveAnnotation(annotation));
+            (event, id) => this.RemoveAnnotation(id));
     }
 
     LoadAnnotations(annotationManager){
@@ -44,10 +44,10 @@ class TickBar {
         this.ticks.push($tick);
     }
 
-    RemoveAnnotation(annotation){
+    RemoveAnnotation(id){
         // Remove the object from the document, and the array
         this.ticks = this.ticks.filter((obj) => {
-            if (obj.data("annotation-id") == annotation.metadata.id){
+            if (obj.data("annotation-id") == id){
                 obj.remove();
                 return true;
             }
