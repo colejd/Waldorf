@@ -214,7 +214,9 @@ class AnnotationGUI {
             this.$timeStartField.val(GetFormattedTime(this.annotator.player.videoElement.currentTime));
             this.$timeEndField.val(GetFormattedTime(this.annotator.player.videoElement.duration));
             this.$textField.val("");
+            // Reset the tags field
             this.$tagsField.val("").trigger("change");
+            this.$tagsField.find("option").remove();
 
             this.polyEditor.InitPoly();
         }
@@ -225,13 +227,15 @@ class AnnotationGUI {
             this.$deleteButton.button("enable");
 
             this.originalAnnotation = annotation;
-            console.log(annotation);
 
             console.log("Populated from an existing annotation");
+            console.log(annotation);
             this.$timeStartField.val(GetFormattedTime(annotation.data.beginTime / 1000));
             this.$timeEndField.val(GetFormattedTime(annotation.data.endTime / 1000));
             this.$textField.val(annotation.data.text);
+            // Reset the tags field
             this.$tagsField.val("").trigger("change");
+            this.$tagsField.find("option").remove();
 
             for(let tag of annotation.data.tags){
                 this.$tagsField.append("<option value='"+tag+"' selected>"+tag+"</option>");
@@ -241,8 +245,6 @@ class AnnotationGUI {
             this.polyEditor.InitPoly(annotation.data["pointsArray"]);
 
         }
-        //this.newPolyPoints = [];
-        //this.breadcrumbs = [];
     }
 
     CommitAnnotationToServer(callback){
