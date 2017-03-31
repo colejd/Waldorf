@@ -18,6 +18,7 @@ class AnnotationGUI {
 
         this.annotator.$container.on("OnPolygonEditingEnded", () => {
             this.SetVisible(true);
+            //this.polyEditor.ShowJustPolygon();
         });
 
     }
@@ -253,6 +254,7 @@ class AnnotationGUI {
             }
 
             this.polyEditor.InitPoly(annotation.data["pointsArray"]);
+            //this.polyEditor.ShowJustPolygon();
 
         }
     }

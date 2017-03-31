@@ -126,6 +126,7 @@ class PolygonEditor {
         
         this.$breadcrumbs.push($breadcrumb);
 
+        //this.UpdatePolyClipping();
         this.UpdateBreadcrumbColoring();
     }
 
@@ -166,7 +167,7 @@ class PolygonEditor {
         for(let $breadcrumb of this.$breadcrumbs){
             $breadcrumb.remove();
         }
-        this.breadcrumbs = [];
+        this.$breadcrumbs = [];
 
         // Remove the poly if it already exists
         if(this.$poly != null){
@@ -201,12 +202,15 @@ class PolygonEditor {
     }
 
     UpdatePolyClipping(){
+        console.log("Update poly 1");
         if(this.$breadcrumbs.length < 3){
             this.$poly.clipPath([], {
                 svgDefId: 'annotatorPolyEditorSvg'
             });
             return;
         }
+
+        console.log("Update poly 2");
 
         let points = this.$breadcrumbs.map(($crumb) => {
             let pos = this.GetCenterPercentage($crumb);
@@ -254,6 +258,7 @@ class PolygonEditor {
     BeginEditing(){
         this.$clickSurface.show();
         this.$bar.show();
+        this.UpdatePolyClipping();
     }
 
     Done(){
@@ -276,6 +281,13 @@ class PolygonEditor {
         // Sets grow [shrink] [basis]
         //$element.css('flex', '0 0 auto');
         $container.append($element);
+    }
+
+    ShowJustPolygon(){
+        //this.UpdatePolyClipping();
+        //this.$clickSurface.show();
+        //this.$poly.show();
+        //this.$clickSurface.children().hide();
     }
 
 }
