@@ -18,6 +18,11 @@ class PolygonEditor {
         this.$clickSurface.click((event) => {
             this.OnSurfaceClick(event);
         });
+
+        // Create the poly object
+        this.$poly = $("<div class='annotator-edit-poly'></div>").appendTo(this.annotator.player.$container);
+        this.$poly.css("z-index", this.$clickSurface.css("z-index") + 1);
+
         this.ResizeOverlay();
         this.annotator.player.$container.on("OnFullscreenChange", (event, setFullscreen) => this.ResizeOverlay());
 
@@ -47,6 +52,7 @@ class PolygonEditor {
         this.$confirmButton.attr('title', "Finish polygon");
         this.$confirmButton.addClass("annotator-confirm-button");
         this.$confirmButton.click(() => {
+            this.originalJSON = this.GetJSON();
             this.Done();
             this.annotator.$container.trigger("OnPolygonEditingEnded");
         });
@@ -100,7 +106,7 @@ class PolygonEditor {
 
         $breadcrumb.css("left", (xPercent - (offPercentX / 2)).toString() + "%");
         $breadcrumb.css("top", (yPercent - (offPercentY / 2)).toString() + "%");
-        $breadcrumb.css("z-index", this.baseZ + 1);
+        $breadcrumb.css("z-index", this.baseZ + 5);
 
         
         $breadcrumb.draggable({ 
@@ -170,9 +176,9 @@ class PolygonEditor {
         this.$breadcrumbs = [];
 
         // Remove the poly if it already exists
-        if(this.$poly != null){
-            this.$poly.remove();
-        }
+        // if(this.$poly != null){
+        //     this.$poly.remove();
+        // }
     }
 
     Restore(){
@@ -181,9 +187,6 @@ class PolygonEditor {
 
     InitPoly(pointsJSON = null){
         this.Reset();
-
-        // Create the poly object
-        this.$poly = $("<div class='annotator-edit-poly'></div>").appendTo(this.$clickSurface);
 
         // If JSON was specified, generate breadcrumbs from it.
         if(pointsJSON != null){
@@ -202,15 +205,12 @@ class PolygonEditor {
     }
 
     UpdatePolyClipping(){
-        console.log("Update poly 1");
         if(this.$breadcrumbs.length < 3){
             this.$poly.clipPath([], {
                 svgDefId: 'annotatorPolyEditorSvg'
             });
             return;
         }
-
-        console.log("Update poly 2");
 
         let points = this.$breadcrumbs.map(($crumb) => {
             let pos = this.GetCenterPercentage($crumb);
@@ -257,12 +257,14 @@ class PolygonEditor {
 
     BeginEditing(){
         this.$clickSurface.show();
+        this.$poly.show();
         this.$bar.show();
         this.UpdatePolyClipping();
     }
 
     Done(){
         this.$clickSurface.hide();
+        this.$poly.hide();
         this.$bar.hide();
     }
 
@@ -273,6 +275,10 @@ class PolygonEditor {
         this.$clickSurface.css('height', videoDims.height);
         let heightDiff = (this.annotator.player.$video.height() - videoDims.height) / 2;
         this.$clickSurface.css('top', heightDiff);
+
+        this.$poly.width(videoDims.width);
+        this.$poly.height(videoDims.height);
+        this.$poly.css("top", heightDiff);
     }
 
     RegisterElement($element, $container, order, justification = 'flex-start'){
@@ -284,10 +290,8 @@ class PolygonEditor {
     }
 
     ShowJustPolygon(){
+        this.$poly.show();
         //this.UpdatePolyClipping();
-        //this.$clickSurface.show();
-        //this.$poly.show();
-        //this.$clickSurface.children().hide();
     }
 
 }
