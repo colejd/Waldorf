@@ -105,9 +105,11 @@
     position:relative;
     background-color: rgba(121, 121, 221, 0.3);
     width: 100%;
-    height: auto;
-    min-height: 100px;
-    margin-top: 10px;
+    //height: auto;
+    min-height: 15em;
+    max-height: 15em;
+    //margin-top: 10px;
+    overflow-y: scroll;
 
     p {
         margin: 0px;

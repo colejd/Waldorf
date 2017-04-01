@@ -153,7 +153,6 @@ class PolygonEditor {
      * of the click surface (0% - 100%).
      */
     GetCenterPercentage($breadcrumb){
-
         let topPercent = ($breadcrumb.position().top / $breadcrumb.parent().height()) * 100;
         let leftPercent = ($breadcrumb.position().left / $breadcrumb.parent().width()) * 100;
 
@@ -256,16 +255,16 @@ class PolygonEditor {
     }
 
     BeginEditing(){
-        this.$clickSurface.show();
-        this.$poly.show();
-        this.$bar.show();
+        this.$clickSurface.makeVisible(true);
+        this.$poly.makeVisible(true);
+        this.$bar.makeVisible(true);
         this.UpdatePolyClipping();
     }
 
     Done(){
-        this.$clickSurface.hide();
-        this.$poly.hide();
-        this.$bar.hide();
+        this.$clickSurface.makeVisible(false);
+        this.$poly.makeVisible(false);
+        this.$bar.makeVisible(false);
     }
 
     ResizeOverlay(){
@@ -290,8 +289,7 @@ class PolygonEditor {
     }
 
     ShowJustPolygon(){
-        //this.$poly.show();
-        //this.UpdatePolyClipping();
+        this.$poly.makeVisible(true);
     }
 
 }
