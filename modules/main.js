@@ -29,9 +29,9 @@ $.fn.annotate = function(serverURL, tagsURL) {
         return;
     }
 
-    preferences.GetJSON((data) => {
-        //console.log(data);
-    });
+    // preferences.GetJSON((data) => {
+    //     //console.log(data);
+    // });
     
     // Wrap self with custom video player
     let player = new AnnotatorVideoPlayer($(this));
