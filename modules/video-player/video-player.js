@@ -110,10 +110,10 @@ class AnnotatorVideoPlayer {
 
     OnFullscreenChange(){
         if(screenfull.isFullscreen){
-            this.$container.addClass("-webkit-full-screen");
+            this.$container.addClass("annotator-fullscreen");
         }
         else{
-            this.$container.removeClass("-webkit-full-screen");
+            this.$container.removeClass("annotator-fullscreen");
         }
     }
 

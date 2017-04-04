@@ -1,8 +1,9 @@
-.select2-dropdown-annotator {
-    z-index: $base-z + 3 !important;
+// Make sure any Select2 instances in the annotator get the right z-index
+.annotator-container .select2-dropdown-annotator {
+    z-index: $base-z + 3;
 }
 
-.select2-container {
+//.select2-container {
     //font-size: 15px;
     //font-family: Verdana, Geneva, sans-serif;
-}
+//}
