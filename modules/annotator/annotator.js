@@ -48,10 +48,15 @@ class VideoAnnotator {
      * Creates the divs that surround the video player.
      */
     Wrap(){
+        // Wrap the video player with this container
         this.$container = $(this.player.$container).wrap("<div class='annotator-container'></div>").parent();
 
         // Set the container to the width of the video player
         this.$container.width(this.player.$container.width());
+
+        // Allow the video player container to grow
+        //this.player.$container.width("100%");
+        //this.player.$container.height("100%");
     }
 
     PopulateControls(){

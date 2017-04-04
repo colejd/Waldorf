@@ -1,0 +1,15 @@
+// Specificity increase function from https://www.sitepoint.com/selector-specificity-css-preprocessors/
+@mixin specificity($num: 1) {
+    $selector: &;
+    @if $num > 1 {
+        @for $i from 1 to $num {
+            $selector: $selector + &;
+        }
+        @at-root #{$selector} {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}

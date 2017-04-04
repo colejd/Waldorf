@@ -52,13 +52,14 @@ class AnnotatorVideoPlayer {
         // Remove the default controls from the video
         this.videoElement.removeAttribute("controls");
 
+        // Wrap the video element with the container
         this.$container = this.$video.wrap("<div class='annotator-video-player'></div>").parent();
-        // Resize video container to fit the dimensions of the video
+        // Resize container to fit the dimensions of the video
         this.$container.width(this.$video.width());
         this.$container.height(this.$video.height());
-        // Restyle the video to fill the video container
-        this.$video.css('width', '100%');
-        this.$video.css('height', '100%');
+        // Restyle the video to grow with the video container
+        this.$video.width('100%');
+        this.$video.height('100%');
     }
 
     PopulateControls(){

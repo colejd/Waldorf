@@ -1,6 +1,6 @@
 // Container for the whole app
 .annotator-container {
-    position: absolute;
+    position: relative;
     height: auto;
     display: inline-block;
 }
@@ -118,10 +118,14 @@
     }
 
     textarea {
-        height: 1.5em;
+        $top_offset: 0px;
+        height: 25px - $top_offset;
         resize: vertical;
-        padding-top: 5px;
+        padding-top: 5px + $top_offset;
+        //padding-bottom: 5px;
         padding-left: 5px;
+        padding-right: 5px;
+        //padding: 0px;
         font: menu;
         font-size: 16px;
     }
