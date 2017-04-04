@@ -7,7 +7,7 @@ $.fn.makeVisible = function(show) {
     if(show){
         $(this).css({
             "visibility": "visible",
-            "pointer-events": "all"
+            "pointer-events": ""
         });
     } else {
         $(this).css({
