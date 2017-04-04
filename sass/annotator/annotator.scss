@@ -1,79 +1,60 @@
+// Container for the whole app
 .annotator-container {
-    //position: absolute;
-    //width: 100%;
+    position: absolute;
     height: auto;
-    float:left;
     display: inline-block;
-
 }
 
-
-.annotator-video-overlay{
+// Overlay that holds all the polygons
+.annotator-video-overlay {
     position: absolute;
     top: 0px;
-    color: #FFF;
-    text-align: center;
-    font-size: 20px;
     width: 100%;
     height: 100%;
-    z-index: 2147483647;
+    z-index: $base-z + 7;
     pointer-events: none;
 
     @if ($debug){
         background-color: rgba(221, 121, 121, 0.3);
     }
+
+    // Polygon styling
+    .annotator-overlay-poly {
+        position: absolute;
+        background-color: rgba(0, 118, 255, 0.55);
+        width: 100%;
+        height: 100%;
+        pointer-events: all;
+    }
 }
 
+// Overlay that holds the polygon editor (minus the toolbar)
 .annotator-edit-overlay{
     position: absolute;
     top: 0px;
-    color: #FFF;
-    text-align: center;
-    font-size: 20px;
     width: 100%;
     height: 100%;
-    z-index: 2147483647;
+    z-index: $base-z + 8;
     pointer-events: none;
 
     //@if ($debug){
         background-color: rgba(121, 221, 121, 0.3);
     //}
-}
 
-.annotator-overlay-poly {
-    position: absolute;
-    background-color: rgba(0, 118, 255, 0.55);
-    
-/*    position: absolute;*/
-    top: 0px;
-    color: #FFF;
-    text-align: center;
-    font-size: 20px;
-    width: 100%;
-    height: 100%;
-    z-index: 2147483648;
-    pointer-events: all;
-}
-
-.annotator-edit-poly {
-    position: absolute;
-    background-color: rgba(255, 118, 0, 0.55);
-    
-/*    position: absolute;*/
-    top: 0px;
-    color: #FFF;
-    text-align: center;
-    font-size: 20px;
-    width: 100%;
-    height: 100%;
-    z-index: 2147483648;
-    pointer-events: none !important;
+    // Editor polygon lives next to the overlay
+    + .annotator-edit-poly {
+        position: absolute;
+        background-color: rgba(255, 118, 0, 0.55);
+        width: 100%;
+        height: 100%;
+        z-index: $base-z + 9;
+        pointer-events: none !important;
+        //mix-blend-mode: overlay;
+        //background-blend-mode: overlay;
+    }
 }
 
 .annotator-tickbar {
-    //margin: 0;
-    //padding: 0;
-    
     position: absolute;
     display: block;
     cursor: pointer;
@@ -81,7 +62,6 @@
     height: 5px;
     top: -15px;
     left: 0;
-    
     //pointer-events: none;
     
     background-color: rgba(0, 0, 0, 0);
@@ -94,7 +74,6 @@
         position: absolute;
         width: 2px;
         height: 100%;
-        top: 0px;
         opacity: 0.75;
         
         background-color: rgba(0, 255, 49, 0.78);
@@ -102,7 +81,7 @@
 }
 
 .annotator-info {
-    position:relative;
+    position: relative;
     background-color: rgba(121, 121, 221, 0.3);
     width: 100%;
     //height: auto;
@@ -131,69 +110,68 @@
 	transition: opacity .3s;
     background-color: rgba(52, 52, 52, 0.67);
     cursor: default;
-    z-index: 2147483648;
-}
+    z-index: $base-z + 20;
 
-.annotator-vp-post .ui-field-contain {
-    padding-left: 5px;
-    padding-right: 5px;
-}
+    .ui-field-contain {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
-.annotator-vp-post textarea {
-    height: 1.5em;
-    resize: vertical;
-    padding-top: 5px;
-    padding-left: 5px;
-    font: menu;
-    font-size: 16px;
-}
+    textarea {
+        height: 1.5em;
+        resize: vertical;
+        padding-top: 5px;
+        padding-left: 5px;
+        font: menu;
+        font-size: 16px;
+    }
 
-.annotator-vp-post label {
-    font-family: Verdana, Geneva, sans-serif;
-    color: #ffffff;
-    user-select: none;
-    font-size: 0.8em;
-    padding-right: 5px;
-}
+    label {
+        font-family: Verdana, Geneva, sans-serif;
+        color: #ffffff;
+        user-select: none;
+        font-size: 0.8em;
+        padding-right: 5px;
+    }
 
-.annotator-vp-post input {
-    font-size: 0.8em;
+    input {
+        font-size: 0.8em;
+    }
 }
 
 .annotator-vp-click-surface {
-    z-index: 2147483648;
+    z-index: $base-z + 8;
     pointer-events: auto;
-    //box-shadow: inset 0 0 0px 1px rgb(255, 0, 0);
-    //background-color: #FFF; //Should be invisible.
+    // box-shadow: inset 0 0 0px 1px rgb(255, 0, 0);
+    // background-color: #FFF; //Should be invisible.
+
+    .breadcrumb{
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        background: #ccc;
+        // background: rgba(204, 204, 204, 0);
+        border: 1px solid #000;
+        margin: 0px;
+        padding: 0px;
+    }
 }
 
-.annotator-vp-click-surface .breadcrumb{
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    background: #ccc;
-/*    background: rgba(204, 204, 204, 0);*/
-    border: 1px solid #000;
-    margin: 0px;
-    padding: 0px;
+// Gives a button a 2-color Material kind of look
+@mixin accent-button($fg-color, $bg-color) {
+    border-color: $bg-color;
+    background-color: $bg-color;
+    color: $fg-color;
+
+    &:hover {
+        color: $bg-color;
+    }
 }
 
 .annotator-cancel-button {
-    border-color: #F44336;
-    background-color: #F44336;
-    color: white;
-}
-
-.annotator-cancel-button:hover {
-    color: #F44336;
+    @include accent-button(#FFFFFF, #F44336);
 }
 
 .annotator-confirm-button {
-    border-color: #8BC34A;
-    background-color: #8BC34A;
-    color: white;
-}
-
-.annotator-confirm-button:hover {
-    color: #8BC34A;
+    @include accent-button(#FFFFFF, #8BC34A);
 }

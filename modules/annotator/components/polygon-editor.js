@@ -14,14 +14,14 @@ class PolygonEditor {
 
         // Create the video overlay
         this.$clickSurface = $("<div class='annotator-edit-overlay annotator-vp-click-surface'></div>").appendTo(this.annotator.player.$container);
-        this.$clickSurface.css("z-index", this.baseZ);
+        //this.$clickSurface.css("z-index", this.baseZ);
         this.$clickSurface.click((event) => {
             this.OnSurfaceClick(event);
         });
 
         // Create the poly object
         this.$poly = $("<div class='annotator-edit-poly'></div>").appendTo(this.annotator.player.$container);
-        this.$poly.css("z-index", this.baseZ + 1);
+        //this.$poly.css("z-index", this.baseZ + 1);
 
         this.ResizeOverlay();
         this.annotator.player.$container.on("OnFullscreenChange", (event, setFullscreen) => this.ResizeOverlay());
@@ -106,7 +106,7 @@ class PolygonEditor {
 
         $breadcrumb.css("left", (xPercent - (offPercentX / 2)).toString() + "%");
         $breadcrumb.css("top", (yPercent - (offPercentY / 2)).toString() + "%");
-        $breadcrumb.css("z-index", this.baseZ - 50);
+        //$breadcrumb.css("z-index", this.baseZ - 50);
 
         
         $breadcrumb.draggable({ 

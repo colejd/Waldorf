@@ -1,6 +1,7 @@
 // This file is purely for imports.
 
-@import "settings.scss";
+@import "_variables.scss";
+@import "_config.scss";
 
 // Vendor
 @import "vendor/qtip2.scss";
