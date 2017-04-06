@@ -66,8 +66,27 @@ class VideoAnnotator {
         // Create the polygon overlay
         this.polyOverlay = new PolygonOverlay(this);
 
+        this.$debugControls = $("<div class='annotator-debug-controls'></div>").appendTo(this.$container);
+        var $showAllAnnotationsButton = this.$debugControls.append('<button>Open Annotation Manifest in New Window</button>');
+        $showAllAnnotationsButton.click(() => {
+            let url = this.player.videoElement.currentSrc;
+            this.server.FetchAnnotations("location", url, (json)=>{
+                var win = window.open();
+                win.document.open();
+                win.document.write("<title>" +  "Annotation Manifest for " + url +"</title>");
+                win.document.write("<pre>" + JSON.stringify(json, null, 2) + "</pre>");
+                win.document.close();
+            });
+            
+        });
+
+        // Wrap all the buttons with the list tag
+        //this.$debugControls.wrapInner("<ul></ul>");
+        // Wrap each button with the list element tag
+        //this.$debugControls.find("button").wrap("<li></li>");
+
         // Create the info container
-        this.$info = $("<div class='annotator-info'></div>").appendTo(this.$container);
+        this.$info = $("<div class='annotator-info' aria-live='polite' aria-atomic='true'></div>").appendTo(this.$container);
 
         // Inject the annotation edit button into the toolbar
         this.$addAnnotationButton = $("<button>Add New Annotation</button>").button({
