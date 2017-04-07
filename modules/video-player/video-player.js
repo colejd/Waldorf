@@ -6,10 +6,12 @@ let screenfull = require('screenfull');
 
 class AnnotatorVideoPlayer {
     constructor($video){
-        console.log("[AnnotatorVideoPlayer] created for video.");
-
+        console.log("[AnnotatorVideoPlayer] Creating AnnotatorVideoPlayer for video...");
         this.$video = $video;
         this.videoElement = this.$video.get(0);
+
+        // Force the video to reload so our events fire properly
+        this.videoElement.load();
 
         this.Wrap();
         this.PopulateControls();
@@ -38,13 +40,20 @@ class AnnotatorVideoPlayer {
             this.$container.trigger("OnFullscreenChange");
         });
 
-        this.videoElement.onloadedmetadata = () => {
-            this.$container.trigger("OnVideoReady");
-        };
-
         this.videoElement.ontimeupdate = () => {
             this.OnTimeUpdate(this.videoElement.currentTime);
         };
+
+        this.videoElement.onloadedmetadata = () => {
+            this.$container.trigger("OnVideoReady");
+        };
+        if(this.videoElement.duration != null){
+            // If the metadata is already prepared, throw the event since
+            // onloadedmetadata won't be fired
+            this.$container.trigger("OnVideoReady");
+        }
+
+        console.log("[AnnotatorVideoPlayer] AnnotatorVideoPlayer created for video.");
         
     }
 

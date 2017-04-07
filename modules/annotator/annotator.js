@@ -7,7 +7,7 @@ import { AnnotationGUI } from "./components/annotation-gui.js";
 
 class VideoAnnotator {
     constructor(player, serverURL, tagsURL){
-        console.log("[Annotator] created for video.");
+        console.log("[VideoAnnotator] Creating VideoAnnotator...");
 
         this.serverURL = serverURL;
         this.tagsURL = tagsURL;
@@ -42,6 +42,7 @@ class VideoAnnotator {
             this.$addAnnotationButton.button("enable");
         });
 
+        console.log("[VideoAnnotator] Annotator created for video.");
     }
 
     /**

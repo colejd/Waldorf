@@ -36,9 +36,14 @@ $.fn.annotate = function(serverURL, tagsURL) {
     
     // Wrap self with custom video player
     let player = new AnnotatorVideoPlayer($(this));
-    player.$container.on("OnVideoReady", ()=>{
+    let annotator = null;
+    player.$container.on("OnVideoReady", () => {
+        console.log("[Main] Player sent OnVideoReady, attempting to wrap with annotator...");
         // Add annotator once video has loaded
-        let annotator = new VideoAnnotator(player, serverURL, tagsURL);
+        if(annotator == null){
+            console.log("[Main] Wrapping video with annotator...");
+            annotator = new VideoAnnotator(player, serverURL, tagsURL);
+        }
     });
 
 };
