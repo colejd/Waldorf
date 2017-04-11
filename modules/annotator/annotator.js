@@ -6,6 +6,7 @@ import { preferences } from "../utils/preference-manager.js";
 import { AnnotationGUI } from "./components/annotation-gui.js";
 import { InfoContainer } from "./components/info-container.js";
 import { SessionManager } from "./session-manager.js";
+import { MessageOverlay } from "./components/message-overlay.js";
 
 class VideoAnnotator {
     constructor(player, serverURL, tagsURL){
@@ -21,6 +22,7 @@ class VideoAnnotator {
         this.server = new ServerInterface(this);
         this.server.SetBaseURL(this.serverURL);
         
+        this.messageOverlay = new MessageOverlay(this);
         this.annotationManager = new AnnotationManager();
         this.sessionManager = new SessionManager(this);
 

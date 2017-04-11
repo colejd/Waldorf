@@ -38,6 +38,7 @@ class ServerInterface {
             localStorage.setItem('waldorf_auth_token', data.auth_token);
         }).fail((response) => {
             console.error("Could not log in.");
+            this.annotator.messageOverlay.ShowMessage("Could not log in!");
         });
     }
 
@@ -73,6 +74,7 @@ class ServerInterface {
             },
             error: (response) => {
                 console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
+                this.annotator.messageOverlay.ShowMessage("Could not retrieve annotations!");
             }
         });
     }
@@ -85,6 +87,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
+            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
             return false;
         }
         
@@ -114,11 +117,13 @@ class ServerInterface {
             },
             success: (data) => {
                 console.log("Successfully posted new annotation.");
+                this.annotator.messageOverlay.ShowMessage("Successfully created new annotation.");
                 annotation.metadata.id = data.id; // Append the ID given by the response
                 if(callback) callback(annotation);
             },
             error: (response) => {
                 console.error("Failed to post new annotation!");
+                this.annotator.messageOverlay.ShowMessage("Could not post new annotation!");
             }
 
         });
@@ -130,6 +135,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
+            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
             return false;
         }
         
@@ -161,12 +167,14 @@ class ServerInterface {
             },
             success: (data) => {
                 console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
+                this.annotator.messageOverlay.ShowMessage("Successfully edited the anotation.");
                 //console.log(annotation);
                 annotation.metadata.id = data.id; // Append the ID given by the response
                 if(callback) callback(annotation, oldID);
             },
             error: (response) => {
                 console.error("Failed to edit the annotation!");
+                this.annotator.messageOverlay.ShowMessage("Could not edit the annotation!");
             }
 
         });
@@ -176,6 +184,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
+            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
             return false;
         }
 
@@ -193,10 +202,12 @@ class ServerInterface {
             },
             success: (data) => {
                 console.log("Successfully deleted the annotation.");
+                this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
                 if(callback) callback(annotation);
             },
             error: (response) => {
                 console.error("Failed to delete annotation!");
+                this.annotator.messageOverlay.ShowMessage("Could not delete the annotation!");
             }
 
         });
