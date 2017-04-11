@@ -4,6 +4,8 @@ import { TickBar } from "./components/tick-bar.js";
 import { PolygonOverlay } from "./components/polygon-overlay.js";
 import { preferences } from "../utils/preference-manager.js";
 import { AnnotationGUI } from "./components/annotation-gui.js";
+import { InfoContainer } from "./components/info-container.js";
+import { SessionManager } from "./session-manager.js";
 
 class VideoAnnotator {
     constructor(player, serverURL, tagsURL){
@@ -20,6 +22,7 @@ class VideoAnnotator {
         this.server.SetBaseURL(this.serverURL);
         
         this.annotationManager = new AnnotationManager();
+        this.sessionManager = new SessionManager(this);
 
         this.server.FetchAnnotations('location', this.player.videoElement.currentSrc, (json)=>{
             this.annotationManager.PopulateFromJSON(json);
@@ -87,7 +90,7 @@ class VideoAnnotator {
         //this.$debugControls.find("button").wrap("<li></li>");
 
         // Create the info container
-        this.$info = $("<div class='annotator-info' aria-live='polite' aria-atomic='true'></div>").appendTo(this.$container);
+        this.infoContainer = new InfoContainer(this);
 
         // Inject the annotation edit button into the toolbar
         this.$addAnnotationButton = $("<button>Add New Annotation</button>").button({
@@ -97,7 +100,7 @@ class VideoAnnotator {
             this.$addAnnotationButton.button("disable");
             this.gui.BeginEditing();
         });
-        this.player.controlBar.RegisterElement(this.$addAnnotationButton, 1, 'flex-end');
+        this.player.controlBar.RegisterElement(this.$addAnnotationButton, 2, 'flex-end');
 
         this.gui = new AnnotationGUI(this);
 
@@ -125,12 +128,7 @@ class VideoAnnotator {
         this.annotationsNow = this.annotationManager.AnnotationsAtTime(this.player.videoElement.currentTime);
 
         // Update the info container
-        let plural = this.annotationsNow.length == 1 ? "" : "s";
-        this.$info.html("<p>Showing " + this.annotationsNow.length + " annotation" + plural + " (" + this.annotationManager.annotations.length + " total).</p>");
-        // Add each annotation to the readout
-        for (let i = 0; i < this.annotationsNow.length; i++){
-            this.$info.append("<p><strong>Annotation " + (i + 1) + ":</strong><br>" + this.annotationsNow[i].ToHTML() + "</p>");
-        }
+        this.infoContainer.Rebuild(this.annotationsNow);
 
         this.$container.trigger("OnNewAnnotationSet", [this.annotationsNow]);
     }

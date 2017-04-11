@@ -89,7 +89,7 @@ class VideoPlayerBar {
             icon: "fa fa-arrows-alt",
             showLabel: false
         }).click(() => this.player.ToggleFullscreen());
-        this.RegisterElement(this.$fullScreenButton, 2, 'flex-end');
+        this.RegisterElement(this.$fullScreenButton, 999, 'flex-end');
         
         // Create empty element between left floating and right floating toolbar items to space them out properly
         this.$container.append($("<div></div>").css("flex-grow", 1).css("order", 0));
