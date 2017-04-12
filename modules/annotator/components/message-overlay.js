@@ -6,7 +6,7 @@ class MessageOverlay {
         this.$container = $("<div class='annotator-message-overlay'></div>");
         this.annotator.player.$container.append(this.$container);
 
-        this.$text = $("<p></p>").appendTo(this.$container);
+        this.$text = $("<p role='alert' aria-live='assertive' aria-atomic='true'></p>").appendTo(this.$container);
         this.$container.fadeOut(0);
 
     }
