@@ -111,9 +111,13 @@ class VideoPlayerBar {
         //console.log(isVisible + " " + duration);
         this.$container.stop(true, true);
         if(isVisible){
-            this.$container.fadeTo(duration, 1.0);
+            this.$container.fadeTo(duration, 1.0, () => {
+                this.$container.makeVisible(true);
+            });
         } else {
-            this.$container.fadeTo(duration, 0.0);
+            this.$container.fadeTo(duration, 0.0, () => {
+                this.$container.makeVisible(false);
+            });
         }
     }
 

@@ -63,11 +63,11 @@ class SeekbarTooltip {
     }
 
     Show() {
-        this.$tooltip.show();
+        this.$tooltip.makeVisible(true);
     }
 
     Hide() {
-        this.$tooltip.hide();
+        this.$tooltip.makeVisible(false);
     }
 
     SetContent(text) {

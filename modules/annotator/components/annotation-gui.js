@@ -12,7 +12,7 @@ class AnnotationGUI {
 
         //Hide the container
         this.isVisible = false;
-        this.$container.hide();
+        this.$container.makeVisible(false);
 
         this.polyEditor = new PolygonEditor(this.annotator);
 
@@ -170,9 +170,11 @@ class AnnotationGUI {
         //console.log(isVisible + " " + duration);
         if(isVisible){
             this.$container.fadeTo(duration, 1.0);
+            this.$container.makeVisible(true);
         } else {
             this.$container.stop(true, true);
             this.$container.fadeTo(duration, 0.0);
+            this.$container.makeVisible(false);
         }
         this.isVisible = isVisible;
 
