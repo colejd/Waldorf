@@ -87,8 +87,8 @@ class AnnotationGUI {
         this.$deleteButton.css("margin-right", "15px");
         this.$deleteButton.attr('title', "Delete annotation");
         this.$deleteButton.click(() => {
-            this.annotator.server.DeleteAnnotation(this.originalAnnotation, (annotation) => {
-                this.annotator.DeregisterAnnotation(annotation);
+            this.annotator.server.DeleteAnnotation(this.originalAnnotation).done((response) => {
+                this.annotator.DeregisterAnnotation(this.originalAnnotation);
                 this.Close();
             });
         });

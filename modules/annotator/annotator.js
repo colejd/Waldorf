@@ -26,7 +26,7 @@ class VideoAnnotator {
         this.annotationManager = new AnnotationManager();
         this.sessionManager = new SessionManager(this);
 
-        this.server.FetchAnnotations('location', this.player.videoElement.currentSrc, (json)=>{
+        this.server.FetchAnnotations('location', this.player.videoElement.currentSrc).done((json)=>{
             this.annotationManager.PopulateFromJSON(json);
             this.AnnotationsLoaded();
         });
@@ -76,12 +76,18 @@ class VideoAnnotator {
         var $showAllAnnotationsButton = this.$debugControls.append('<button>Open Annotation Manifest in New Window</button>');
         $showAllAnnotationsButton.click(() => {
             let url = this.player.videoElement.currentSrc;
-            this.server.FetchAnnotations("location", url, (json)=>{
-                var win = window.open();
-                win.document.open();
-                win.document.write("<title>" +  "Annotation Manifest for " + url +"</title>");
-                win.document.write("<pre>" + JSON.stringify(json, null, 2) + "</pre>");
-                win.document.close();
+            this.server.FetchAnnotations("location", url).done((json) => {
+                let win = window.open();
+                if(win === null) {
+                    console.error("Couldn't show annotation manifest; please allow pop-ups.");
+                    this.messageOverlay.ShowMessage("Couldn't show annotation manifest; please allow pop-ups.");
+                }
+                else {
+                    win.document.open();
+                    win.document.write("<title>" +  "Annotation Manifest for " + url +"</title>");
+                    win.document.write("<pre>" + JSON.stringify(json, null, 2) + "</pre>");
+                    win.document.close();
+                }
             });
             
         });

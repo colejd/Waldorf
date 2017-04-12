@@ -61,21 +61,18 @@ class ServerInterface {
         });
     }
 
-    FetchAnnotations(searchKey, searchParam, callback) {
-        $.ajax({
+    FetchAnnotations(searchKey, searchParam) {
+        return $.ajax({
             url: this.baseURL + "/api/getAnnotationsByLocation",
             type: "GET",
             data: { [searchKey]: searchParam },
             dataType: "json",
-            async: true,
-            success: (data) => {
-                console.log("Fetched " + data.annotations.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
-                callback(data);
-            },
-            error: (response) => {
-                console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
-                this.annotator.messageOverlay.ShowMessage("Could not retrieve annotations!");
-            }
+            async: true
+        }).done((data) => {
+            console.log("Fetched " + data.annotations.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
+        }).fail((response) => {
+            console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
+            this.annotator.messageOverlay.ShowMessage("Could not retrieve annotations!");
         });
     }
 
@@ -180,16 +177,21 @@ class ServerInterface {
         });
     }
 
-    DeleteAnnotation(annotation, callback){
+    DeleteAnnotation(annotation){
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
             this.annotator.messageOverlay.ShowMessage("You are not logged in!");
-            return false;
+            let deferred = $.Deferred();
+            deferred.reject({
+                success: false,
+                data: "Not logged in."
+            });
+            return deferred.promise();
         }
 
         console.log("Deleting annotation " + annotation.metadata.id);
-        $.ajax({
+        return $.ajax({
             url: this.baseURL + "/api/deleteAnnotation",
             type: "DELETE",
             data: {
@@ -199,17 +201,14 @@ class ServerInterface {
             context: this,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', this.make_token_auth(auth_token));
-            },
-            success: (data) => {
-                console.log("Successfully deleted the annotation.");
-                this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
-                if(callback) callback(annotation);
-            },
-            error: (response) => {
-                console.error("Failed to delete annotation!");
-                this.annotator.messageOverlay.ShowMessage("Could not delete the annotation!");
             }
 
+        }).done((response) => {
+            console.log("Successfully deleted the annotation.");
+            this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
+        }).fail((response) => {
+            console.error("Failed to delete annotation!");
+            this.annotator.messageOverlay.ShowMessage("Could not delete the annotation!");
         });
     }
 
