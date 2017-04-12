@@ -39,7 +39,7 @@ class SessionManager {
     ShowLoginModal(){
         // Create the dialog
         let $container = $("<div title='Log In'></div>"); // Outermost HTML
-        let $headText = $container.html("<p class='validateTips'>All fields are required.</p>");
+        let $headText = $("<p class='validateTips'>All fields are required.</p>").appendTo($container);
         let $form = $("<form></form>").appendTo($container);
         $("<label for='username'>Username</label>").appendTo($form);
         let $usernameField = $("<input type='text' name='username' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
@@ -55,6 +55,9 @@ class SessionManager {
                 "Log In": () => {
                     this.annotator.server.LogIn($usernameField.val(), $passwordField.val()).done(() => {
                         $dialog.dialog("close");
+                    }).fail(() => {
+                        $headText.html("<p>Invalid username or password.</p>");
+                        $headText.css("color", "red");
                     });
                 },
                 Cancel: () => {
