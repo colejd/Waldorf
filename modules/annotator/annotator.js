@@ -80,7 +80,7 @@ class VideoAnnotator {
                 let win = window.open();
                 if(win === null) {
                     console.error("Couldn't show annotation manifest; please allow pop-ups.");
-                    this.messageOverlay.ShowMessage("Couldn't show annotation manifest; please allow pop-ups.");
+                    this.messageOverlay.ShowError("Couldn't show annotation manifest; please allow pop-ups.");
                 }
                 else {
                     win.document.open();

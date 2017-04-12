@@ -38,7 +38,7 @@ class ServerInterface {
             localStorage.setItem('waldorf_auth_token', data.auth_token);
         }).fail((response) => {
             console.error("Could not log in.");
-            this.annotator.messageOverlay.ShowMessage("Could not log in!");
+            this.annotator.messageOverlay.ShowError("Could not log in!");
         });
     }
 
@@ -72,7 +72,7 @@ class ServerInterface {
             console.log("Fetched " + data.annotations.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
         }).fail((response) => {
             console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
-            this.annotator.messageOverlay.ShowMessage("Could not retrieve annotations!");
+            this.annotator.messageOverlay.ShowError("Could not retrieve annotations!");
         });
     }
 
@@ -84,7 +84,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
+            this.annotator.messageOverlay.ShowError("You are not logged in!");
             return false;
         }
         
@@ -120,7 +120,7 @@ class ServerInterface {
             },
             error: (response) => {
                 console.error("Failed to post new annotation!");
-                this.annotator.messageOverlay.ShowMessage("Could not post new annotation!");
+                this.annotator.messageOverlay.ShowError("Could not post new annotation!");
             }
 
         });
@@ -132,7 +132,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
+            this.annotator.messageOverlay.ShowError("You are not logged in!");
             return false;
         }
         
@@ -171,7 +171,7 @@ class ServerInterface {
             },
             error: (response) => {
                 console.error("Failed to edit the annotation!");
-                this.annotator.messageOverlay.ShowMessage("Could not edit the annotation!");
+                this.annotator.messageOverlay.ShowError("Could not edit the annotation!");
             }
 
         });
@@ -181,7 +181,7 @@ class ServerInterface {
         let auth_token = localStorage.getItem('waldorf_auth_token');
         if (auth_token === null) {
             console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowMessage("You are not logged in!");
+            this.annotator.messageOverlay.ShowError("You are not logged in!");
             let deferred = $.Deferred();
             deferred.reject({
                 success: false,
@@ -208,7 +208,7 @@ class ServerInterface {
             this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
         }).fail((response) => {
             console.error("Failed to delete annotation!");
-            this.annotator.messageOverlay.ShowMessage("Could not delete the annotation!");
+            this.annotator.messageOverlay.ShowError("Could not delete the annotation!");
         });
     }
 
