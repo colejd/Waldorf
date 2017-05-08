@@ -8,6 +8,7 @@ import "./vendor.js";
 
 import "./utils/array-extensions.js";
 import "./utils/jquery-extensions.js";
+import "./utils/string-extensions.js";
 
 import { preferences } from "./utils/preference-manager.js";
 import { VerifyRequirements } from "./utils/requirements.js";

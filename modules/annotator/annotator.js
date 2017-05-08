@@ -7,6 +7,7 @@ import { AnnotationGUI } from "./components/annotation-gui.js";
 import { InfoContainer } from "./components/info-container.js";
 import { SessionManager } from "./session-manager.js";
 import { MessageOverlay } from "./components/message-overlay.js";
+import { Annotation } from "./annotation.js";
 
 class VideoAnnotator {
     constructor(player, serverURL, tagsURL){
@@ -85,7 +86,13 @@ class VideoAnnotator {
                 else {
                     win.document.open();
                     win.document.write("<title>" +  "Annotation Manifest for " + url +"</title>");
-                    win.document.write("<pre>" + JSON.stringify(json, null, 2) + "</pre>");
+                    win.document.write("<pre>");
+                    let mapped = json.annotations.map((annotation) => {
+                        return Annotation.OpenAnnotation(annotation);
+                    });
+                    win.document.write(JSON.stringify(mapped, null, 2).escapeHTML());
+
+                    win.document.write("</pre>");
                     win.document.close();
                 }
             });
