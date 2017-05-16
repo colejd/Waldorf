@@ -28,7 +28,8 @@
     "jquery-ui": "^1.12.1",
     "qtip2": "^3.0.3",
     "screenfull": "^3.0.2",
-    "select2": "^4.0.3"
+    "select2": "^4.0.3",
+    "sha1": "^1.1.1"
   },
   "scripts": {
     "test": "grunt test"

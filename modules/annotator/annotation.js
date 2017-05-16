@@ -1,3 +1,4 @@
+let sha1 = require('sha1');
 
 class Annotation{
     constructor(json){
@@ -50,7 +51,7 @@ class Annotation{
                 //id: "Unspecified",
                 "type": "Person",
                 "nickname": serverJSON.metadata.userName,
-                "email": serverJSON.metadata.userEmail
+                "email": sha1(serverJSON.metadata.userEmail)
             };
             model["creator"] = creator;
         }
