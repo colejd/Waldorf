@@ -139,7 +139,8 @@ class ServerInterface {
         }
 
         if(this.annotator.apiKey){
-            anno_data["email"] = key; // Email
+            annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
+            anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
         }
         
         //data = JSON.stringify(data);
@@ -203,7 +204,8 @@ class ServerInterface {
         }
 
         if(this.annotator.apiKey){
-            anno_data["email"] = key; // Email
+            annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
+            anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
         }
 
         let oldID = anno_data.id;

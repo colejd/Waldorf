@@ -1,4 +1,5 @@
 import { GetFormattedTime } from "../../utils/time.js";
+let sha1 = require('sha1');
 
 class InfoContainer {
     constructor(annotator){
@@ -37,8 +38,9 @@ class InfoContainer {
                 + GetFormattedTime(annotation.data.endTime / 1000));
         $content.append("<br>");
 
-        $content.append("<b>Submitted by </b> " 
-                + (annotation.metadata.userName || "unspecified"));
+        $content.append("<b>Submitted by:</b><br />"
+                + (annotation.metadata.userEmail != null ? sha1(annotation.metadata.userEmail) : "unspecified")
+                );
 
         //$paragraph.append("<strong>Annotation " + (index + 1) + ":</strong><br><pre>" + text.escapeHTML() + "</pre>");
 
