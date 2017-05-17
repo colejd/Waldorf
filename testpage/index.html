@@ -25,7 +25,7 @@
 </head>
 
 <body>
-    <video width="640" height="480">
+    <video width="640" height="480" playsinline>
         <source src="http://sachinchoolur.github.io/lightGallery/static/videos/video2.mp4" type="video/mp4">
     </video>
 
@@ -36,7 +36,9 @@
         // AWS IP: "52.88.72.190"
         var serverAddress = "http://ec2-52-88-72-190.us-west-2.compute.amazonaws.com:3000";
         var tagsAddress = "https://onomy.org/published/83/json";
-        $("video").first().annotate(serverAddress, tagsAddress);
+        var apiKey = "a5d236b0-ed51-44ed-b030-1c343a430834";
+        //$("video").first().annotate(serverAddress, tagsAddress);
+        $("video").first().annotate(serverAddress, tagsAddress, apiKey);
     </script>
 
 </body>

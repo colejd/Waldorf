@@ -37,29 +37,55 @@ class SessionManager {
     }
 
     ShowLoginModal(){
+
         // Create the dialog
         let $container = $("<div title='Log In'></div>"); // Outermost HTML
         let $headText = $("<p class='validateTips'>All fields are required.</p>").appendTo($container);
         let $form = $("<form></form>").appendTo($container);
-        $("<label for='username'>Username</label>").appendTo($form);
-        let $usernameField = $("<input type='text' name='username' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
-        $("<label for='password'>Password</label>").appendTo($form);
-        let $passwordField = $("<input type='password' name='password' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
+
+        let $usernameField;
+        let $passwordField;
+
+        if (this.annotator.apiKey){
+            $("<label for='username'>Email Address</label>").appendTo($form);
+            $usernameField = $("<input type='text' name='username' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
+        }
+        else {
+            $("<label for='username'>Username</label>").appendTo($form);
+            $usernameField = $("<input type='text' name='username' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
+            $("<label for='password'>Password</label>").appendTo($form);
+            $passwordField = $("<input type='password' name='password' value='' class='text ui-widget-content ui-corner-all'>").appendTo($form);
+        }
+        
         $form.wrapInner("<fieldset />");
+
+        let login = () => {
+            if(this.annotator.apiKey){
+                this.annotator.server.LogIn($usernameField.val()).done(() => {
+                    console.log("api key login success");
+                    $dialog.dialog("close");
+                }).fail(() => {
+                    $headText.html("<p>Invalid email address.</p>");
+                    $headText.css("color", "red");
+                });
+            }
+            else {
+                this.annotator.server.LogIn($usernameField.val(), $passwordField.val()).done(() => {
+                    $dialog.dialog("close");
+                }).fail(() => {
+                    $headText.html("<p>Invalid username or password.</p>");
+                    $headText.css("color", "red");
+                });
+            }
+            
+        }
 
         let $dialog = $container.dialog({
             autoOpen: true,
             draggable: false,
             modal: true,
             buttons: {
-                "Log In": () => {
-                    this.annotator.server.LogIn($usernameField.val(), $passwordField.val()).done(() => {
-                        $dialog.dialog("close");
-                    }).fail(() => {
-                        $headText.html("<p>Invalid username or password.</p>");
-                        $headText.css("color", "red");
-                    });
-                },
+                "Log In": login,
                 Cancel: () => {
                     $dialog.dialog("close");
                 }

@@ -10,11 +10,12 @@ import { MessageOverlay } from "./components/message-overlay.js";
 import { Annotation } from "./annotation.js";
 
 class VideoAnnotator {
-    constructor(player, serverURL, tagsURL){
+    constructor(player, serverURL, tagsURL, apiKey){
         console.log("[VideoAnnotator] Creating VideoAnnotator...");
 
         this.serverURL = serverURL;
         this.tagsURL = tagsURL;
+        this.apiKey = apiKey;
         
         this.player = player;
         this.Wrap();

@@ -2,7 +2,7 @@
 class ServerInterface {
     constructor(annotator){
         this.annotator = annotator;
-        localStorage.removeItem('waldorf_auth_token');
+        //localStorage.removeItem('waldorf_auth_token');
     }
 
     SetBaseURL(url){
@@ -15,16 +15,35 @@ class ServerInterface {
         return 'Basic ' + hash;
     }
 
-    make_token_auth(token){
-        return 'Token ' + token;
+    make_write_auth(text){
+        if(this.annotator.apiKey){
+            return 'ApiKey ' + text;
+        } else {
+            return 'Token ' + text;
+        }
     }
 
     LoggedIn(){
-        let auth_token = localStorage.getItem('waldorf_auth_token');
-        return auth_token !== null;
+        if(this.annotator.apiKey){
+            // Return true if an email has been entered
+            let user_email = localStorage.getItem('waldorf_user_email');
+            return user_email !== null;
+        }
+        else {
+            // Return true if a token has been registered
+            let auth_token = localStorage.getItem('waldorf_auth_token');
+            return auth_token !== null;
+        }
     }
 
     LogIn(username, password){
+        // If API key is used, just store the email address
+        if(this.annotator.apiKey){
+            console.log("Successfully logged in.");
+            localStorage.setItem('waldorf_user_email', username);
+            return $.Deferred().resolve();
+        }
+
         return $.ajax({
             url: this.baseURL + "/api/login",
             type: "POST",
@@ -43,6 +62,13 @@ class ServerInterface {
     }
 
     LogOut(){
+        // If API key is used, just remove the email from local storage.
+        if(this.annotator.apiKey){
+            console.log("Successfully logged out.");
+            localStorage.removeItem('waldorf_user_email');
+            return $.Deferred().resolve();
+        }
+
         return $.ajax({
             url: this.baseURL + "/api/logout",
             type: "DELETE",
@@ -51,13 +77,14 @@ class ServerInterface {
             beforeSend: function (xhr) {
                 let auth_token = localStorage.getItem('waldorf_auth_token') || "";
                 console.log(`token: ${auth_token}`);
-                xhr.setRequestHeader('Authorization', this.make_token_auth(auth_token));
+                xhr.setRequestHeader('Authorization', this.make_write_auth(auth_token));
             }
         }).done((data) => {
             console.log("Successfully logged out.");
             localStorage.removeItem('waldorf_auth_token');
         }).fail((response) => {
             console.error("Could not log out.");
+            localStorage.removeItem('waldorf_auth_token');
         });
     }
 
@@ -81,11 +108,22 @@ class ServerInterface {
         let annotation = this.annotator.gui.GetAnnotationObject();
         console.log(annotation);
 
-        let auth_token = localStorage.getItem('waldorf_auth_token');
-        if (auth_token === null) {
-            console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowError("You are not logged in!");
-            return false;
+        let key;
+        if (this.annotator.apiKey){
+            key = this.annotator.apiKey;
+            let email_storage = localStorage.getItem('waldorf_user_email');
+            if (email_storage === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                return false;
+            }
+        } else {
+            key = localStorage.getItem('waldorf_auth_token');
+            if (key === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                return false;
+            }
         }
         
         let anno_data = {
@@ -99,6 +137,10 @@ class ServerInterface {
             'pointsArray': annotation.data.pointsArray, // Stringified array
             'tags': annotation.data.tags
         }
+
+        if(this.annotator.apiKey){
+            anno_data["email"] = key; // Email
+        }
         
         //data = JSON.stringify(data);
         //console.log(anno_data);
@@ -110,7 +152,7 @@ class ServerInterface {
             async: true,
             context: this,
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', this.make_token_auth(auth_token));
+                xhr.setRequestHeader('Authorization', this.make_write_auth(key));
             },
             success: (data) => {
                 console.log("Successfully posted new annotation.");
@@ -128,12 +170,23 @@ class ServerInterface {
 
     EditAnnotation(callback){
         let annotation = this.annotator.gui.GetAnnotationObject();
-
-        let auth_token = localStorage.getItem('waldorf_auth_token');
-        if (auth_token === null) {
-            console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowError("You are not logged in!");
-            return false;
+        
+        let key;
+        if (this.annotator.apiKey){
+            key = this.annotator.apiKey;
+            let email_storage = localStorage.getItem('waldorf_user_email');
+            if (email_storage === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                return false;
+            }
+        } else {
+            key = localStorage.getItem('waldorf_auth_token');
+            if (key === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                return false;
+            }
         }
         
         let anno_data = {
@@ -149,6 +202,10 @@ class ServerInterface {
             'id': annotation.metadata.id
         }
 
+        if(this.annotator.apiKey){
+            anno_data["email"] = key; // Email
+        }
+
         let oldID = anno_data.id;
 
         console.log("Modifying annotation " + oldID);
@@ -160,7 +217,7 @@ class ServerInterface {
             async: true,
             context: this,
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', this.make_token_auth(auth_token));
+                xhr.setRequestHeader('Authorization', this.make_write_auth(key));
             },
             success: (data) => {
                 console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
@@ -178,16 +235,32 @@ class ServerInterface {
     }
 
     DeleteAnnotation(annotation){
-        let auth_token = localStorage.getItem('waldorf_auth_token');
-        if (auth_token === null) {
-            console.error("You are not logged in!");
-            this.annotator.messageOverlay.ShowError("You are not logged in!");
-            let deferred = $.Deferred();
-            deferred.reject({
-                success: false,
-                data: "Not logged in."
-            });
-            return deferred.promise();
+        let key;
+        if (this.annotator.apiKey){
+            key = this.annotator.apiKey;
+            let email_storage = localStorage.getItem('waldorf_user_email');
+            if (email_storage === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                let deferred = $.Deferred();
+                deferred.reject({
+                    success: false,
+                    data: "Not logged in."
+                });
+                return deferred.promise();
+            }
+        } else {
+            key = localStorage.getItem('waldorf_auth_token');
+            if (key === null) {
+                console.error("You are not logged in!");
+                this.annotator.messageOverlay.ShowError("You are not logged in!");
+                let deferred = $.Deferred();
+                deferred.reject({
+                    success: false,
+                    data: "Not logged in."
+                });
+                return deferred.promise();
+            }
         }
 
         console.log("Deleting annotation " + annotation.metadata.id);
@@ -200,7 +273,7 @@ class ServerInterface {
             async: true,
             context: this,
             beforeSend: function (xhr) {
-                xhr.setRequestHeader('Authorization', this.make_token_auth(auth_token));
+                xhr.setRequestHeader('Authorization', this.make_write_auth(key));
             }
 
         }).done((response) => {
