@@ -1,6 +1,14 @@
 .annotator-video-player {
     background-color: black;
     position: relative;
+    width: 100% !important;
+    height: auto !important; // Causes growth of container by 2 pixels
+
+    video {
+        width: 100%;
+        height: 100%;
+        display: block; // Removes extra pixels created by "height: auto;" in annotator-video-player
+    }
 }
 
 .annotator-fullscreen {

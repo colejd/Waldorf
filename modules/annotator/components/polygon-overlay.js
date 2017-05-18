@@ -11,6 +11,8 @@ class PolygonOverlay {
         this.annotator.player.$container.on("OnFullscreenChange", (event, setFullscreen) => this.ResizeOverlay());
 
         this.annotator.$container.on("OnNewAnnotationSet", (event, annotations) => this.Update(annotations));
+
+        $(window).resize(() => this.ResizeOverlay());
     }
 
     Update(annotations){
@@ -101,8 +103,12 @@ class PolygonOverlay {
         let videoDims = this.annotator.player.GetVideoDimensions();
         this.$videoOverlay.css('width', videoDims.width);
         this.$videoOverlay.css('height', videoDims.height);
+
         let heightDiff = (this.annotator.player.$video.height() - videoDims.height) / 2;
         this.$videoOverlay.css('top', heightDiff);
+
+        let widthDiff = (this.annotator.player.$video.width() - videoDims.width) / 2;
+        this.$videoOverlay.css('left', widthDiff);
     }
 
 }

@@ -73,6 +73,8 @@ class PolygonEditor {
         });
         this.RegisterElement(this.$cancelButton, this.$postToolbar, 2, 'flex-end');
 
+        $(window).resize(() => this.ResizeOverlay());
+
         this.Done();
     }
 
@@ -272,12 +274,17 @@ class PolygonEditor {
         let videoDims = this.annotator.player.GetVideoDimensions();
         this.$clickSurface.css('width', videoDims.width);
         this.$clickSurface.css('height', videoDims.height);
+
         let heightDiff = (this.annotator.player.$video.height() - videoDims.height) / 2;
         this.$clickSurface.css('top', heightDiff);
+
+        let widthDiff = (this.annotator.player.$video.width() - videoDims.width) / 2;
+        this.$clickSurface.css('left', widthDiff);
 
         this.$poly.width(videoDims.width);
         this.$poly.height(videoDims.height);
         this.$poly.css("top", heightDiff);
+        this.$poly.css("left", widthDiff);
     }
 
     RegisterElement($element, $container, order, justification = 'flex-start'){

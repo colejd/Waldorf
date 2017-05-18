@@ -66,9 +66,6 @@ class AnnotatorVideoPlayer {
         // Resize container to fit the dimensions of the video
         this.$container.width(this.$video.width());
         this.$container.height(this.$video.height());
-        // Restyle the video to grow with the video container
-        this.$video.width('100%');
-        this.$video.height('100%');
     }
 
     PopulateControls(){
