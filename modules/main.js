@@ -15,19 +15,14 @@ import { VerifyRequirements } from "./utils/requirements.js";
 import { AnnotatorVideoPlayer } from "./video-player/video-player.js";
 import { VideoAnnotator } from "./annotator/annotator.js";
 
-//console.log(css);
-
-console.log($.fn);
-
-//Start running when the window finishes loading
-window.addEventListener('load', function(){
-    VerifyRequirements();
-});
-
 $.fn.annotate = function(serverURL, tagsURL, apiKey) {
     // Error out early if "this" is not a video
     if($(this).prop('tagName').toLowerCase() != "video"){
         console.error("Cannot wrap a non-video element!");
+        return;
+    }
+
+    if(!VerifyRequirements()){
         return;
     }
 
