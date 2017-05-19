@@ -67,7 +67,7 @@ class VideoAnnotator {
         //this.player.$container.height("100%");
 
         // Copy the video styles to the container
-        this.player.$video.copyCssTo(this.$container.get(0));
+        this.$container.css(this.player.originalStyles);
     }
 
     PopulateControls(){

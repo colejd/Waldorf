@@ -1,9 +1,9 @@
 // Container for the whole app
 .annotator-container {
-    position: relative;
-    height: auto;
-    display: inline-block;
-    max-width: 100%;
+    //position: relative !important;
+    height: auto !important;
+    display: inline-block !important;
+    //max-width: 100% !important;
 }
 
 // Overlay that holds all the polygons

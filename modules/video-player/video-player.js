@@ -10,6 +10,9 @@ class AnnotatorVideoPlayer {
         this.$video = $video;
         this.videoElement = this.$video.get(0);
 
+        // Store the original styling of the video element before we alter it
+        this.originalStyles = this.$video.getStyles(null, ["height"]); //["width", "top", "left", "margin", "padding"]
+
         // Force the video to reload so our events fire properly
         this.videoElement.load();
 
@@ -35,10 +38,13 @@ class AnnotatorVideoPlayer {
         this.$container.mousemove(() => this.OnMouseMove());
         this.SetAutoFade(true);
 
-        screenfull.onchange(() => {
-            this.OnFullscreenChange();
-            this.$container.trigger("OnFullscreenChange");
-        });
+        // If screenfull is enabled, create the event to handle it.
+        if(screenfull){
+            screenfull.onchange(() => {
+                this.OnFullscreenChange();
+                this.$container.trigger("OnFullscreenChange");
+            });
+        }
 
         this.videoElement.ontimeupdate = () => {
             this.OnTimeUpdate(this.videoElement.currentTime);
@@ -112,6 +118,9 @@ class AnnotatorVideoPlayer {
     }
 
     ToggleFullscreen(){
+        if (!screenfull.enabled) {
+            return;
+        }
         screenfull.toggle(this.$container[0]);
     }
 
@@ -121,6 +130,18 @@ class AnnotatorVideoPlayer {
         }
         else{
             this.$container.removeClass("annotator-fullscreen");
+        }
+    }
+
+    SetFullscreen(fullscreen){
+        if (!screenfull.enabled) {
+            return;
+        }
+
+        if(fullscreen){
+            screenfull.request(this.$container[0]);
+        } else {
+            screenfull.exit();
         }
     }
 
