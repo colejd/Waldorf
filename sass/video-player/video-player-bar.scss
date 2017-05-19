@@ -11,6 +11,7 @@ $bar-text-color: #575757; //#ffffff;
     background-color: $bar-bg-color;
     cursor: default;
     vertical-align: middle;
+    z-index: $base-z + 20;
 
     p {
         display: inline;
