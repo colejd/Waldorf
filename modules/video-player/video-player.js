@@ -39,7 +39,7 @@ class AnnotatorVideoPlayer {
         this.SetAutoFade(true);
 
         // If screenfull is enabled, create the event to handle it.
-        if(screenfull){
+        if(screenfull !== 'undefined'){
             screenfull.onchange(() => {
                 this.OnFullscreenChange();
                 this.$container.trigger("OnFullscreenChange");
@@ -118,7 +118,7 @@ class AnnotatorVideoPlayer {
     }
 
     ToggleFullscreen(){
-        if (!screenfull.enabled) {
+        if (screenfull === 'undefined' || !screenfull.enabled) {
             return;
         }
         screenfull.toggle(this.$container[0]);
@@ -134,7 +134,7 @@ class AnnotatorVideoPlayer {
     }
 
     SetFullscreen(fullscreen){
-        if (!screenfull.enabled) {
+        if (screenfull === 'undefined' || !screenfull.enabled) {
             return;
         }
 
