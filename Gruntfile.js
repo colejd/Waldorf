@@ -59,7 +59,8 @@ module.exports = function (grunt) {
                         "./testpage/**/*.js",
                         "./testpage/**/*.html",
                         "./testpage/**/*.css",
-                        "./dist/**/*.css"
+                        "./dist/**/*.css",
+                        "./dist/**/*.js"
                     ]
                 },
                 options: {
