@@ -9,18 +9,6 @@ class SessionManager {
         this.annotator = annotator;
         this.modalOpen = false;
 
-        $("head").append(`<style>
-    label, input { display:block; }
-    input.text { margin-bottom:12px; width:95%; padding: .4em; }
-    fieldset { padding:0; border:0; margin-top:25px; }
-    h1 { font-size: 1.2em; margin: .6em 0; }
-    div#users-contain { width: 350px; margin: 20px 0; }
-    div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-    div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-    .ui-dialog .ui-state-error { padding: .3em; }
-    .validateTips { border: 1px solid transparent; padding: 0.3em; }
-  </style>`);
-
         // Inject the button for logging in/out into the toolbar
         this.$userButton = $("<button>Log In</button>").button({
             icon: "fa fa-user",
@@ -39,7 +27,7 @@ class SessionManager {
     ShowLoginModal(){
 
         // Create the dialog
-        let $container = $("<div title='Log In'></div>"); // Outermost HTML
+        let $container = $("<div class='session-modal' title='Log In'></div>"); // Outermost HTML
         let $headText = $("<p class='validateTips'>All fields are required.</p>").appendTo($container);
         let $form = $("<form></form>").appendTo($container);
 
@@ -124,6 +112,9 @@ class SessionManager {
     PresentModal(){
         // Early out if the modal is already open
         if(this.modalOpen) return;
+
+        // Turn off fullscreen if it's on
+        this.annotator.player.SetFullscreen(false);
 
         if(this.annotator.server.LoggedIn()){
             this.ShowLogoutModal();
