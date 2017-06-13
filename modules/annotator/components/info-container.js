@@ -11,7 +11,7 @@ class InfoContainer {
         let plural = annotations.length == 1 ? "" : "s";
         let totalAnnotations = this.annotator.annotationManager.annotations.length;
         this.$container.empty();
-        this.$container.html("<p>Showing " + annotations.length + " annotation" + plural + " (" + totalAnnotations + " total).</p>");
+        this.$container.html(`<p>Showing ${annotations.length} annotation${plural} (${totalAnnotations} total).</p>`);
 
         // Add each annotation to the readout
         for (let i = 0; i < annotations.length; i++){
@@ -23,7 +23,13 @@ class InfoContainer {
         let $panel = $("<p></p>").appendTo($("<div></div>").appendTo(this.$container));
         //let text = JSON.stringify(annotation.AsOpenAnnotation(), null, 2);
 
-        let $header = $("<b>Annotation " + (index + 1) + ":</b><br>");
+        // Add clickable header that brings up the edit interface.
+        let $header = $(`<a href='' title='Edit Annotation'><b>Annotation ${index + 1}:</b><br></a>`);
+        $header.click( (event) => {
+            event.preventDefault();
+            this.annotator.gui.BeginEditing(annotation);
+        });
+
         $panel.append($header);
         let $content = $("<p></p>");
         
