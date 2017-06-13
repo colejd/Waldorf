@@ -11,7 +11,7 @@ class AnnotatorVideoPlayer {
         this.videoElement = this.$video.get(0);
 
         // Store the original styling of the video element before we alter it
-        this.originalStyles = this.$video.getStyles(null, ["height"]); //["width", "top", "left", "margin", "padding"]
+        this.originalStyles = this.$video.getStyles(null, ["height", "WebkitTextFillColor", "color"]); //["width", "top", "left", "margin", "padding"]
 
         // Force the video to reload so our events fire properly
         this.videoElement.load();

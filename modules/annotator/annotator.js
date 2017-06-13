@@ -67,6 +67,7 @@ class VideoAnnotator {
         //this.player.$container.height("100%");
 
         // Copy the video styles to the container
+        console.log(this.player.originalStyles);
         this.$container.css(this.player.originalStyles);
     }
 
