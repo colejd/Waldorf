@@ -1,3 +1,4 @@
+let sha1 = require('sha1');
 
 class ServerInterface {
     constructor(annotator){
@@ -96,7 +97,7 @@ class ServerInterface {
             dataType: "json",
             async: true
         }).done((data) => {
-            console.log("Fetched " + data.annotations.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
+            console.log("Fetched " + data.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
         }).fail((response) => {
             console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
             this.annotator.messageOverlay.ShowError("Could not retrieve annotations!");
@@ -125,22 +126,12 @@ class ServerInterface {
                 return false;
             }
         }
-        
-        let anno_data = {
-            'annotation': annotation.data.text, 
-            'video_title': annotation.metadata.title, 
-            'video_author': annotation.metadata.userName, 
-            'location': annotation.metadata.location, 
-            'semantic_tag': 'Semantic tag text', 
-            'beginTime': annotation.data.beginTime, // ms as int
-            'endTime': annotation.data.endTime, // ms as int
-            'pointsArray': annotation.data.pointsArray, // Stringified array
-            'tags': annotation.data.tags
-        }
 
         if(this.annotator.apiKey){
-            annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
-            anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
+            if(annotation["creator"] == null) annotation["creator"] = {};
+            annotation["creator"]["email"] = sha1(localStorage.getItem('waldorf_user_email'));
+            //annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
+            //anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
         }
         
         //data = JSON.stringify(data);
@@ -149,7 +140,7 @@ class ServerInterface {
         $.ajax({
             url: this.baseURL + "/api/addAnnotation",
             type: "POST",
-            data: anno_data,
+            data: annotation,
             async: true,
             context: this,
             beforeSend: function (xhr) {
@@ -158,7 +149,7 @@ class ServerInterface {
             success: (data) => {
                 console.log("Successfully posted new annotation.");
                 this.annotator.messageOverlay.ShowMessage("Successfully created new annotation.");
-                annotation.metadata.id = data.id; // Append the ID given by the response
+                annotation.id = data.id; // Append the ID given by the response
                 if(callback) callback(annotation);
             },
             error: (response) => {
@@ -189,33 +180,20 @@ class ServerInterface {
                 return false;
             }
         }
-        
-        let anno_data = {
-            'annotation': annotation.data.text, 
-            'video_title': annotation.metadata.title, 
-            'video_author': annotation.metadata.userName, 
-            'location': annotation.metadata.location, 
-            'semantic_tag': 'Semantic tag text', 
-            'beginTime': annotation.data.beginTime, // ms as int
-            'endTime': annotation.data.endTime, // ms as int
-            'pointsArray': annotation.data.pointsArray, // Stringified array
-            'tags': annotation.data.tags,
-            'id': annotation.metadata.id
-        }
 
         if(this.annotator.apiKey){
-            annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
-            anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
+            if(annotation["creator"] == null) annotation["creator"] = {};
+            annotation["creator"]["email"] = sha1(localStorage.getItem('waldorf_user_email'));
         }
 
-        let oldID = anno_data.id;
+        let oldID = annotation.id;
 
         console.log("Modifying annotation " + oldID);
         
         $.ajax({
             url: this.baseURL + "/api/editAnnotation",
             type: "POST",
-            data: anno_data,
+            data: annotation,
             async: true,
             context: this,
             beforeSend: function (xhr) {
@@ -225,7 +203,7 @@ class ServerInterface {
                 console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
                 this.annotator.messageOverlay.ShowMessage("Successfully edited the anotation.");
                 //console.log(annotation);
-                annotation.metadata.id = data.id; // Append the ID given by the response
+                annotation.id = data.id; // Append the ID given by the response
                 if(callback) callback(annotation, oldID);
             },
             error: (response) => {
@@ -265,12 +243,12 @@ class ServerInterface {
             }
         }
 
-        console.log("Deleting annotation " + annotation.metadata.id);
+        console.log("Deleting annotation " + annotation.id);
         return $.ajax({
             url: this.baseURL + "/api/deleteAnnotation",
             type: "DELETE",
             data: {
-                "id": annotation.metadata.id
+                "id": annotation.id
             },
             async: true,
             context: this,

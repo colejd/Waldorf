@@ -38,12 +38,16 @@ class PolygonOverlay {
         // })
         
         for (let i = 0; i < annotations.length; i++) {
+            let annotationPolyPoints = annotations[i].getPoly();
+            if (annotationPolyPoints == null) {
+                // Ignore this annotation if it has no polygon
+                continue;
+            }
+
             // Create the poly object
             let $poly = $("<div class='annotator-overlay-poly'></div>").appendTo(this.$videoOverlay);
-            // Parse the points array from the annotation
-            let pointsData = JSON.parse(annotations[i].data["pointsArray"]);
 
-            $poly.clipPath(pointsData, {
+            $poly.clipPath(annotationPolyPoints, {
                 isPercentage: true,
                 svgDefId: 'annotatorPolySvg'
             });
@@ -63,8 +67,8 @@ class PolygonOverlay {
         $.fn.qtip.zindex = this.baseZ+ 1;
         $poly.qtip({
             content: {
-                title: annotation.metadata["id"],
-                text: annotation.data["text"]
+                title: annotation.id,
+                text: annotation.body.filter(item => item.purpose === "describing")[0].value
             },
             position: {
                 my: 'bottom right',

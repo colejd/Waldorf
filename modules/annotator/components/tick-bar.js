@@ -32,13 +32,13 @@ class TickBar {
         let $tick = $("<div class='annotator-tickbar-tick'></div>").appendTo(this.$tickBar);
 
         // Add the ID of the annotation to its corresponding tick so we can reference it later
-        $tick.data("annotation-id", annotation.metadata.id);
+        $tick.data("annotation-id", annotation.id);
 
-        let beginTime = annotation.data.beginTime / 1000;
+        let beginTime = annotation.beginTime;
         let beginPercent = beginTime / this.annotator.player.videoElement.duration;
         $tick.css('left', (beginPercent * 100).toString() + "%");
 
-        let endTime = annotation.data.endTime / 1000;
+        let endTime = annotation.endTime;
         let endPercent = endTime / this.annotator.player.videoElement.duration;
         $tick.css('width', ((endPercent - beginPercent) * 100).toString() + "%");
 

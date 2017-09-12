@@ -28,7 +28,9 @@ class VideoAnnotator {
         this.annotationManager = new AnnotationManager();
         this.sessionManager = new SessionManager(this);
 
-        this.server.FetchAnnotations('location', this.player.videoElement.currentSrc).done((json)=>{
+        // Load annotations from server based on the player's video URL
+        this.server.FetchAnnotations('location', this.player.videoElement.currentSrc)
+        .done((json)=>{
             this.annotationManager.PopulateFromJSON(json);
             this.AnnotationsLoaded();
         });

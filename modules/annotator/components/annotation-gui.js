@@ -1,5 +1,6 @@
 import { GetFormattedTime, GetSecondsFromHMS } from "../../utils/time.js";
 import { PolygonEditor } from "./polygon-editor.js";
+import { Annotation } from "../annotation.js";
 
 class AnnotationGUI {
 
@@ -223,6 +224,8 @@ class AnnotationGUI {
             this.$titleLabel.text("Create Annotation");
             this.$deleteButton.button("disable");
 
+            this.originalAnnotation = null;
+
             console.log("Populated with template data");
             this.$timeStartField.val(GetFormattedTime(this.annotator.player.videoElement.currentTime));
             this.$timeEndField.val(GetFormattedTime(this.annotator.player.videoElement.duration));
@@ -243,19 +246,19 @@ class AnnotationGUI {
 
             console.log("Populated from an existing annotation");
             console.log(annotation);
-            this.$timeStartField.val(GetFormattedTime(annotation.data.beginTime / 1000));
-            this.$timeEndField.val(GetFormattedTime(annotation.data.endTime / 1000));
-            this.$textField.val(annotation.data.text);
+            this.$timeStartField.val(GetFormattedTime(annotation.beginTime));
+            this.$timeEndField.val(GetFormattedTime(annotation.endTime));
+            this.$textField.val(annotation.body.filter(item => item.purpose === "describing").value);
             // Reset the tags field
             this.$tagsField.val("").trigger("change");
             this.$tagsField.find("option").remove();
 
-            for(let tag of annotation.data.tags){
+            for(let tag of annotation.tags){
                 this.$tagsField.append("<option value='"+tag+"' selected>"+tag+"</option>");
                 this.$tagsField.trigger("change");
             }
 
-            this.polyEditor.InitPoly(annotation.data["pointsArray"]);
+            this.polyEditor.InitPoly(annotation.getPoly());
             this.polyEditor.ShowJustPolygon();
 
         }
@@ -272,35 +275,79 @@ class AnnotationGUI {
         }
     }
 
+    // Build an Open Annotation object from the data.
     GetAnnotationObject(){
 
-        // Extract tag text from tags field
+        let annotation = new Annotation(this.originalAnnotation);
+
+        // // Create and add the creator metadata if it's available
+        // if(serverJSON.metadata.userName && serverJSON.metadata.userEmail){
+        //     let creator = {
+        //         //id: "Unspecified",
+        //         "type": "Person",
+        //         "nickname": serverJSON.metadata.userName,
+        //         "email": serverJSON.metadata.userEmail
+        //     };
+        //     annotation["creator"] = creator;
+        // }
+
+        let body = [];
+
+        // Build text descriptor
+        let bodyText = {
+            "type" : "TextualBody",
+            "value" : this.$textField.val(),
+            "format" : "text/plain",
+            "language" : "en",
+            "purpose": "describing"
+        };
+        body.push(bodyText);
+
+        // Build tag descriptors
         let tags = this.$tagsField.select2("data").map((item) => { return item.text; });
-
-        let obj = {}
-        obj.data = {
-            text: this.$textField.val(),
-            beginTime: Math.round(GetSecondsFromHMS(this.$timeStartField.val()) * 1000),
-            endTime: Math.round(GetSecondsFromHMS(this.$timeEndField.val()) * 1000),
-            pointsArray: this.polyEditor.GetJSON(),
-            tags: tags
-        }
-        
-
-        if (this.originalAnnotation != null){
-            obj.metadata = this.originalAnnotation.metadata;
-        }
-        else{
-            obj.metadata = {
-                //id: "",
-                location: this.annotator.player.videoElement.currentSrc
-                //title: ""
+        for(let tagStr of tags){
+            let bodyTag = {
+                "type": "TextualBody",
+                "purpose": "tagging",
+                "value": tagStr
             }
-        
+            body.push(bodyTag);
         }
+
+        annotation["body"] = body;
+
+        let target = {
+            "id": this.annotator.player.videoElement.currentSrc, // URL of the video
+            "type": "Video"
+        }
+
+        let selectors = [];
+
+        // Build polygon selector
+        let points = this.polyEditor.GetPoints();
+        let pointsStr = points.map(item => { return `${item[0]},${item[1]}` }).join(" ");
+        let polygonSelector = {
+            "type": "SvgSelector",
+            "value": `<svg:svg viewBox='0 0 100 100' preserveAspectRatio='none'><polygon points='${pointsStr}' /></svg:svg>` // http://stackoverflow.com/a/24898728
+        }
+        selectors.push(polygonSelector);
+
+        // Build time selector
+        let timeSelector = {
+            "type": "FragmentSelector",
+            "conformsTo": "http://www.w3.org/TR/media-frags/", // See media fragment specification
+            "value": `t=${GetSecondsFromHMS(this.$timeStartField.val())},${GetSecondsFromHMS(this.$timeEndField.val())}` // Time interval in seconds
+        }
+        selectors.push(timeSelector);
+
+        // Finalize target section
+        target["selector"] = selectors;
+
+        
+        annotation["target"] = target;
 
         // Clone the object so we don't modify anything by changing this object
-        let clone = JSON.parse(JSON.stringify(obj))
+        let clone = JSON.parse(JSON.stringify(annotation))
         return clone;
     }
 

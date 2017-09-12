@@ -34,18 +34,18 @@ class InfoContainer {
         let $content = $("<p></p>");
         
         
-        $content.append("<b>Text: </b> " + annotation.data.text);
+        $content.append("<b>Text: </b> " + annotation.body.filter(item => item.purpose === "describing")[0].value);
         $content.append("<br>");
-        $content.append("<b>Tags: </b> " + annotation.data.tags.join(", "));
+        $content.append("<b>Tags: </b> " + annotation.tags.join(", "));
         $content.append("<br>");
         $content.append("<b>Time: </b> " 
-                + GetFormattedTime(annotation.data.beginTime / 1000) 
+                + GetFormattedTime(annotation.beginTime) 
                 + " - " 
-                + GetFormattedTime(annotation.data.endTime / 1000));
+                + GetFormattedTime(annotation.endTime));
         $content.append("<br>");
 
         $content.append("<b>Submitted by:</b><br />"
-                + (annotation.metadata.userEmail != null ? sha1(annotation.metadata.userEmail) : "unspecified")
+                + (annotation.creator != null ? annotation.creator.email : "unspecified")
                 );
 
         //$paragraph.append("<strong>Annotation " + (index + 1) + ":</strong><br><pre>" + text.escapeHTML() + "</pre>");

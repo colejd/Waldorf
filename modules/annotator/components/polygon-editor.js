@@ -186,23 +186,22 @@ class PolygonEditor {
         this.InitPoly(this.originalJSON);
     }
 
-    InitPoly(pointsJSON = null){
+    InitPoly(points = null){
         this.Reset();
 
         // If JSON was specified, generate breadcrumbs from it.
-        if(pointsJSON != null){
+        if(points != null){
             // Parse the points array from the annotation
-            let pointsData = JSON.parse(pointsJSON);
 
             // Put down the breadcrumbs
-            for(let point of pointsData){
+            for(let point of points){
                 this.AddBreadcrumb(point[0], point[1]);
             }
         }
 
         this.UpdatePolyClipping();
 
-        this.originalJSON = pointsJSON;
+        this.originalJSON = points;
     }
 
     UpdatePolyClipping(){
@@ -254,6 +253,19 @@ class PolygonEditor {
         }
 
         return JSON.stringify(points);
+    }
+
+    /**
+     * Gets an array of percentages representing the x and y percentages of each
+     * point in the polygon.
+     */
+    GetPoints() {
+        let points = [];
+        for(let crumb of this.$breadcrumbs){
+            let point = this.GetCenterPercentage(crumb);
+            points.push([point.x, point.y]);
+        }
+        return points;
     }
 
     BeginEditing(){

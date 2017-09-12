@@ -6,12 +6,12 @@ class AnnotationManager {
     }
 
     PopulateFromJSON(json){
-        if (json.annotations.length == 0){
+        if (json.length == 0){
             console.warn("JSON contains no annotations.");
         }
 
         this.annotations = [];
-        for(let object of json.annotations){
+        for(let object of json){
             this.RegisterAnnotation(object);
         }
 
@@ -41,9 +41,6 @@ class AnnotationManager {
 
     AnnotationsAtTime(time){
 
-
-        let timeMS = (time * 1000) | 0;
-
         // TODO: Reenable with some kind of force parameter
 
         // // If the last time requested is asked for again, just give back the cached result
@@ -55,7 +52,7 @@ class AnnotationManager {
 
         // Filter all loaded annotations that fit within the range query.
         let filtered = this.annotations.filter(function(item){
-            return item.data.beginTime <= timeMS && timeMS <= item.data.endTime;
+            return item.beginTime <= time && time <= item.endTime;
         });
 
         this.cached = filtered;
