@@ -325,12 +325,14 @@ class AnnotationGUI {
 
         // Build polygon selector
         let points = this.polyEditor.GetPoints();
-        let pointsStr = points.map(item => { return `${item[0]},${item[1]}` }).join(" ");
-        let polygonSelector = {
-            "type": "SvgSelector",
-            "value": `<svg:svg viewBox='0 0 100 100' preserveAspectRatio='none'><polygon points='${pointsStr}' /></svg:svg>` // http://stackoverflow.com/a/24898728
+        if(points.length > 0) {
+            let pointsStr = points.map(item => { return `${item[0]},${item[1]}` }).join(" ");
+            let polygonSelector = {
+                "type": "SvgSelector",
+                "value": `<svg:svg viewBox='0 0 100 100' preserveAspectRatio='none'><polygon points='${pointsStr}' /></svg:svg>` // http://stackoverflow.com/a/24898728
+            }
+            selectors.push(polygonSelector);
         }
-        selectors.push(polygonSelector);
 
         // Build time selector
         let timeSelector = {
