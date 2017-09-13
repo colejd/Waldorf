@@ -11,7 +11,7 @@ class SessionManager {
         this.modalOpen = false;
 
         // Inject the button for logging in/out into the toolbar
-        this.$userButton = $("<button>Log In</button>").button({
+        this.$userButton = $("<button>Session</button>").button({
             icon: "fa fa-user",
             showLabel: false
         }).click(() => {

@@ -92,12 +92,9 @@ class VideoAnnotator {
                 }
                 else {
                     win.document.open();
-                    win.document.write("<title>" +  "Annotation Manifest for " + url +"</title>");
+                    win.document.write(`<title>Annotation Manifest for ${url}</title>`);
                     win.document.write("<pre>");
-                    let mapped = json.annotations.map((annotation) => {
-                        return Annotation.OpenAnnotation(annotation);
-                    });
-                    win.document.write(JSON.stringify(mapped, null, 2).escapeHTML());
+                    win.document.write(JSON.stringify(json, null, 2).escapeHTML());
 
                     win.document.write("</pre>");
                     win.document.close();
@@ -178,11 +175,11 @@ class VideoAnnotator {
     }
 
     DeregisterAnnotation(annotation){
-        this.annotationManager.RemoveAnnotation(annotation.metadata.id);
+        this.annotationManager.RemoveAnnotation(annotation.id);
         //this.annotationsNow = this.annotationManager.AnnotationsAtTime(this.player.videoElement.currentTime);
 
         // Throw event for listening objects (e.g. tick-bar)
-        this.$container.trigger("OnAnnotationRemoved", [annotation.metadata.id]);
+        this.$container.trigger("OnAnnotationRemoved", [annotation.id]);
 
         // Update dependent views
         this.UpdateViews();

@@ -248,7 +248,7 @@ class AnnotationGUI {
             console.log(annotation);
             this.$timeStartField.val(GetFormattedTime(annotation.beginTime));
             this.$timeEndField.val(GetFormattedTime(annotation.endTime));
-            this.$textField.val(annotation.body.filter(item => item.purpose === "describing").value);
+            this.$textField.val(annotation.body.filter(item => item.purpose == "describing")[0].value);
             // Reset the tags field
             this.$tagsField.val("").trigger("change");
             this.$tagsField.find("option").remove();
@@ -347,6 +347,9 @@ class AnnotationGUI {
 
         
         annotation["target"] = target;
+
+        // Recompute read-only access properties after all other properties have been set
+        annotation.recalculate();
 
         // Clone the object so we don't modify anything by changing this object
         let clone = JSON.parse(JSON.stringify(annotation))

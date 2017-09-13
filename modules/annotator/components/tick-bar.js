@@ -9,6 +9,7 @@ class TickBar {
         this.$tickBar = $("<div class='annotator-tickbar'></div>");
         this.annotator.player.controlBar.$container.append(this.$tickBar);
 
+        // Attach event handlers
         this.annotator.$container.on("OnAnnotationsLoaded", 
             (event, annotationManager) => this.LoadAnnotations(annotationManager));
 
@@ -46,12 +47,12 @@ class TickBar {
     }
 
     RemoveAnnotation(id){
-        console.log("Removing tick " + id);
+        //console.log("Removing tick " + id);
         // Remove the object from the document, and the array
         let newTicks = [];
         for(let $tick of this.ticks){
             if($tick.data("annotation-id") == id){
-                console.log("Removed a tick");
+                console.log(`Removed tick ${id}`);
                 $tick.remove();
             } else {
                 newTicks.push($tick);

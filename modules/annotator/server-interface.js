@@ -99,8 +99,8 @@ class ServerInterface {
         }).done((data) => {
             console.log("Fetched " + data.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
         }).fail((response) => {
-            console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
-            this.annotator.messageOverlay.ShowError("Could not retrieve annotations!");
+            //console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
+            //this.annotator.messageOverlay.ShowError("Could not retrieve annotations!");
         });
     }
 
@@ -140,9 +140,9 @@ class ServerInterface {
         $.ajax({
             url: this.baseURL + "/api/addAnnotation",
             type: "POST",
-            dataType: 'json',
-            contentType: 'application/json',
-            data: JSON.stringify(annotation),
+            dataType: 'json', // Necessary for Rails to see this data type correctly
+            contentType: 'application/json',  // Necessary for Rails to see this data type correctly
+            data: JSON.stringify(annotation),  // Stringify necessary for Rails to see this data type correctly
             async: true,
             context: this,
             beforeSend: function (xhr) {
@@ -155,8 +155,8 @@ class ServerInterface {
                 if(callback) callback(annotation);
             },
             error: (response) => {
-                console.error("Failed to post new annotation!");
-                this.annotator.messageOverlay.ShowError("Could not post new annotation!");
+                console.error(`Could not post new annotation! Message:\n ${response.details}`);
+                this.annotator.messageOverlay.ShowError(`Could not post new annotation!`);
             }
 
         });
@@ -195,22 +195,25 @@ class ServerInterface {
         $.ajax({
             url: this.baseURL + "/api/editAnnotation",
             type: "POST",
-            data: annotation,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(annotation),
             async: true,
             context: this,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('Authorization', this.make_write_auth(key));
             },
             success: (data) => {
-                console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
-                this.annotator.messageOverlay.ShowMessage("Successfully edited the anotation.");
                 //console.log(annotation);
                 annotation.id = data.id; // Append the ID given by the response
+                //console.log("Successfully edited the annotation. (ID is now " + data.id + ")");
+
+                this.annotator.messageOverlay.ShowMessage("Successfully edited the anotation.");
                 if(callback) callback(annotation, oldID);
             },
             error: (response) => {
-                console.error("Failed to edit the annotation!");
-                this.annotator.messageOverlay.ShowError("Could not edit the annotation!");
+                console.error(`Could not edit the annotation! Message:\n ${response.details}`);
+                this.annotator.messageOverlay.ShowError(`Could not edit the annotation!`);
             }
 
         });
@@ -262,8 +265,8 @@ class ServerInterface {
             console.log("Successfully deleted the annotation.");
             this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
         }).fail((response) => {
-            console.error("Failed to delete annotation!");
-            this.annotator.messageOverlay.ShowError("Could not delete the annotation!");
+            console.error(`Could not delete the annotation. Message:\n ${response.details}`);
+            this.annotator.messageOverlay.ShowError(`Could not delete the annotation!`);
         });
     }
 
