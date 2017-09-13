@@ -9,8 +9,9 @@
 </p>
 
 Waldorf is a replacement video player for HTML5 videos which allows for 
-viewing, creating, and modifying user-made annotations under the specification 
-of the [Media Ecology Project](https://sites.dartmouth.edu/mediaecology/). 
+viewing, creating, and modifying user-made annotations conforming to the
+[W3C Web Annotation data model](https://www.w3.org/TR/annotation-model/),
+and was created for the [Media Ecology Project](https://sites.dartmouth.edu/mediaecology/). 
 
 This project is in an early alpha phase. As such, please note that it's still 
 rough around the edges; documentation and clarifying information will be fleshed
