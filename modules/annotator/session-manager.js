@@ -1,7 +1,8 @@
+let sha1 = require('sha1');
+
 /**
  * Manages the user session for communicating with the backend.
  */
-
 class SessionManager {
 
     constructor(annotator){
@@ -49,8 +50,9 @@ class SessionManager {
 
         let login = () => {
             if(this.annotator.apiKey){
-                this.annotator.server.LogIn($usernameField.val()).done(() => {
-                    console.log("api key login success");
+                let userName = sha1($usernameField.val());
+                this.annotator.server.LogIn(userName).done(() => {
+                    console.log("API key login success");
                     $dialog.dialog("close");
                 }).fail(() => {
                     $headText.html("<p>Invalid email address.</p>");
@@ -58,7 +60,8 @@ class SessionManager {
                 });
             }
             else {
-                this.annotator.server.LogIn($usernameField.val(), $passwordField.val()).done(() => {
+                let userPass = sha1($passwordField.val());
+                this.annotator.server.LogIn($usernameField.val(), userPass).done(() => {
                     $dialog.dialog("close");
                 }).fail(() => {
                     $headText.html("<p>Invalid username or password.</p>");
