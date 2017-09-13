@@ -60,7 +60,7 @@ why, please let us know.
 The following instructions are for building the plugin on your own machine.
 
 
-This project is written in ES6 and transpiled by Babel and Browserify into a bundled file.
+This project is written in ES6 and is transpiled by Babel and Browserify into a bundled file.
 
 
 Note that this project was developed with [Visual Studio Code](https://code.visualstudio.com/). 
@@ -94,11 +94,6 @@ Tasks:
 * Grunt
 * Babel
 * Browserify
-
-## Contributing
-
-Right now the project is in an early alpha phase, and is not open for pull requests
-due to the rapid state of change. We will revisit this when things settle down.
 
 ## Authors
 
