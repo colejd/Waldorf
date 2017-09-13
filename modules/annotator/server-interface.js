@@ -129,7 +129,7 @@ class ServerInterface {
 
         if(this.annotator.apiKey){
             if(annotation["creator"] == null) annotation["creator"] = {};
-            annotation["creator"]["email"] = sha1(localStorage.getItem('waldorf_user_email'));
+            annotation["creator"]["email"] = localStorage.getItem('waldorf_user_email');
             //annotation.metadata.userEmail = localStorage.getItem('waldorf_user_email');
             //anno_data["email"] = localStorage.getItem('waldorf_user_email'); // Email
         }
@@ -140,7 +140,9 @@ class ServerInterface {
         $.ajax({
             url: this.baseURL + "/api/addAnnotation",
             type: "POST",
-            data: annotation,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify(annotation),
             async: true,
             context: this,
             beforeSend: function (xhr) {
@@ -183,7 +185,7 @@ class ServerInterface {
 
         if(this.annotator.apiKey){
             if(annotation["creator"] == null) annotation["creator"] = {};
-            annotation["creator"]["email"] = sha1(localStorage.getItem('waldorf_user_email'));
+            annotation["creator"]["email"] = localStorage.getItem('waldorf_user_email');
         }
 
         let oldID = annotation.id;
