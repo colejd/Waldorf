@@ -122,7 +122,7 @@ class VideoAnnotator {
         this.player.controlBar.RegisterElement(this.$addAnnotationButton, 3, 'flex-end');
 
         // Inject the annotation upload button into the toolbar
-        this.$uploadAnnotationButton = $("<button>Upload New Annotation</button>").button({
+        this.$uploadAnnotationButton = $("<button type='file'>Upload New Annotation</button>").button({
             icon: "fa fa-upload",
             showLabel: false
         }).click(() => {
@@ -198,7 +198,45 @@ class VideoAnnotator {
     }
 
     LoadFromFile() {
+        // Create the dialog
+        let $container = $("<div class='session-modal' title='Import Annotations'></div>"); // Outermost HTML
+        let $headText = $("<p class='validateTips'>Annotations must be W3C OA compliant in JSON format.</p>").appendTo($container);
+        let $form = $("<form></form>").appendTo($container);
 
+        let $importField;
+
+        $("<label for='importFile'>Select File</label>").appendTo($form);
+        $importField = $("<input type='file' name='importFile' class='file ui-widget-content ui-corner-all'>").appendTo($form);
+        
+        $form.wrapInner("<fieldset />");
+
+        $importField.on('change', function(){
+            // let files = $(this).get(0).files;
+            // let fr = new FileReader();
+
+            // fr.onload = (function(localFile){
+            //     let localJson = JSON.parse(localFile.target.result);
+            //     console.log(localJson);
+            //     // TODO: Hook up to OA parser
+            // });
+            // fr.readAsText(files[0]);
+        });
+
+        let $dialog = $container.dialog({
+            autoOpen: true,
+            draggable: false,
+            modal: true,
+            buttons: {
+                Cancel: () => {
+                    $dialog.dialog("close");
+                }
+            },
+            close: () => {
+                $dialog.find("form")[ 0 ].reset();
+                $dialog.find("input").removeClass( "ui-state-error" );
+                this.OnModalClose();
+            }
+        });
     }
 
 
