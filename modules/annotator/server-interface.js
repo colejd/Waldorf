@@ -155,8 +155,8 @@ class ServerInterface {
                 if(callback) callback(annotation);
             },
             error: (response) => {
-                console.error(`Could not post new annotation! Message:\n ${response.details}`);
-                this.annotator.messageOverlay.ShowError(`Could not post new annotation!`);
+                console.error(`Could not post new annotation! Message:\n ${response.responseJSON.detail}`);
+                this.annotator.messageOverlay.ShowError(`Could not post new annotation!<br>(${response.responseJSON.detail})`);
             }
 
         });
@@ -212,8 +212,8 @@ class ServerInterface {
                 if(callback) callback(annotation, oldID);
             },
             error: (response) => {
-                console.error(`Could not edit the annotation! Message:\n ${response.details}`);
-                this.annotator.messageOverlay.ShowError(`Could not edit the annotation!`);
+                console.error(`Could not edit the annotation! Message:\n ${response.responseJSON.detail}`);
+                this.annotator.messageOverlay.ShowError(`Could not edit the annotation!<br>(${response.responseJSON.detail})`);
             }
 
         });
@@ -265,8 +265,8 @@ class ServerInterface {
             console.log("Successfully deleted the annotation.");
             this.annotator.messageOverlay.ShowMessage("Successfully deleted the annotation.");
         }).fail((response) => {
-            console.error(`Could not delete the annotation. Message:\n ${response.details}`);
-            this.annotator.messageOverlay.ShowError(`Could not delete the annotation!`);
+            console.error(`Could not delete the annotation. Message:\n ${response.responseJSON.detail}`);
+            this.annotator.messageOverlay.ShowError(`Could not delete the annotation!<br>(${response.responseJSON.detail})`);
         });
     }
 

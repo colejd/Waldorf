@@ -211,15 +211,15 @@ class VideoAnnotator {
         $form.wrapInner("<fieldset />");
 
         $importField.on('change', function(){
-            // let files = $(this).get(0).files;
-            // let fr = new FileReader();
+            let files = $(this).get(0).files;
+            let fr = new FileReader();
 
-            // fr.onload = (function(localFile){
-            //     let localJson = JSON.parse(localFile.target.result);
-            //     console.log(localJson);
-            //     // TODO: Hook up to OA parser
-            // });
-            // fr.readAsText(files[0]);
+            fr.onload = (function(localFile){
+                let localJson = JSON.parse(localFile.target.result);
+                console.log(localJson);
+                // TODO: Hook up to OA parser
+            });
+            fr.readAsText(files[0]);
         });
 
         let $dialog = $container.dialog({
@@ -234,9 +234,13 @@ class VideoAnnotator {
             close: () => {
                 $dialog.find("form")[ 0 ].reset();
                 $dialog.find("input").removeClass( "ui-state-error" );
-                this.OnModalClose();
+                //this.OnModalClose();
             }
         });
+    }
+
+    ValidateAnnotation(annotation) {
+        return false;
     }
 
 
