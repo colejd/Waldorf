@@ -122,7 +122,7 @@ class VideoAnnotator {
         this.player.controlBar.RegisterElement(this.$addAnnotationButton, 3, 'flex-end');
 
         // Inject the annotation upload button into the toolbar
-        this.$uploadAnnotationButton = $("<button type='file'>Upload New Annotation</button>").button({
+        this.$uploadAnnotationButton = $("<button type='file'>Import Annotation From File</button>").button({
             icon: "fa fa-upload",
             showLabel: false
         }).click(() => {
@@ -164,7 +164,7 @@ class VideoAnnotator {
     }
 
     RegisterNewAnnotation(annotation){
-        console.log(annotation);
+        //console.log(annotation);
         this.annotationManager.RegisterAnnotation(annotation);
 
         // Throw event for listening objects (e.g. tick-bar)
@@ -199,8 +199,10 @@ class VideoAnnotator {
 
     LoadFromFile() {
         // Create the dialog
-        let $container = $("<div class='session-modal' title='Import Annotations'></div>"); // Outermost HTML
+        let $container = $("<div class='session-modal' title='Import Annotation'></div>"); // Outermost HTML
         let $headText = $("<p class='validateTips'>Annotations must be W3C OA compliant in JSON format.</p>").appendTo($container);
+        let $errorText = $("<p class='validateTips modal-error-text'></p>").appendTo($container);
+        $errorText.hide();
         let $form = $("<form></form>").appendTo($container);
 
         let $importField;
@@ -210,14 +212,37 @@ class VideoAnnotator {
         
         $form.wrapInner("<fieldset />");
 
-        $importField.on('change', function(){
-            let files = $(this).get(0).files;
+        let error = (message) => {
+            console.error(message);
+            $errorText.html(message);
+            $errorText.show();
+        }
+
+        let self = this;
+        $importField.on('change', () => {
+            let files = $importField.get(0).files;
             let fr = new FileReader();
 
-            fr.onload = (function(localFile){
+            fr.onload = ((localFile) => {
+                // If the JSON is malformed, show an error and stop here.
+                try {
+                    JSON.parse(localFile.target.result);
+                } 
+                catch (e) {
+                    error("JSON file is malformed!");
+                    return;
+                }
+
                 let localJson = JSON.parse(localFile.target.result);
-                console.log(localJson);
-                // TODO: Hook up to OA parser
+                let annotation = new Annotation(localJson);
+                if(this.ValidateAnnotation(annotation)){
+                    // Open the GUI and populate it with this annotation's data.
+                    this.gui.BeginEditing(annotation, true);
+                    $dialog.dialog("close");
+                }
+                else {
+                    error("JSON is invalid!");
+                }
             });
             fr.readAsText(files[0]);
         });
@@ -240,7 +265,10 @@ class VideoAnnotator {
     }
 
     ValidateAnnotation(annotation) {
-        return false;
+        // TODO: Validate annotation here. Return false if any
+        // required properties are not present.
+
+        return true;
     }
 
 

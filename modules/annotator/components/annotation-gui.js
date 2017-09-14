@@ -212,35 +212,21 @@ class AnnotationGUI {
         this.SetVisible(!this.isVisible, 0);
     }
 
-    BeginEditing(annotation = null){
+    BeginEditing(annotation = null, forceNew = false){
         // Open the GUI if it isn't already
         this.Open();
 
         //console.log(annotation);
 
-        if(annotation == null){
-            // Populate fields if no annotation is given
-            this.editMode = false;
-            this.$titleLabel.text("Create Annotation");
-            this.$deleteButton.button("disable");
-
-            this.originalAnnotation = null;
-
-            console.log("Populated with template data");
-            this.$timeStartField.val(GetFormattedTime(this.annotator.player.videoElement.currentTime));
-            this.$timeEndField.val(GetFormattedTime(this.annotator.player.videoElement.duration));
-            this.$textField.val("");
-            // Reset the tags field
-            this.$tagsField.val("").trigger("change");
-            this.$tagsField.find("option").remove();
-
-            this.polyEditor.InitPoly();
-        }
-        else{
+        // Populate data from the passed in annotation
+        if (annotation || forceNew) {
             // Populate the fields from the annotation
             this.editMode = true;
-            this.$titleLabel.text("Edit Annotation");
-            this.$deleteButton.button("enable");
+
+            // Flip edit mode back to false if forceNew. We want to
+            // populate from the entire passed in annotation, but treat
+            // it as new.
+            if(forceNew) this.editMode = false;
 
             this.originalAnnotation = annotation;
 
@@ -262,6 +248,34 @@ class AnnotationGUI {
             this.polyEditor.ShowJustPolygon();
 
         }
+        // Insert template data if no annotation is given
+        else {
+            // Populate fields if no annotation is given
+            this.editMode = false;
+
+            this.originalAnnotation = null;
+
+            console.log("Populated with template data");
+            this.$timeStartField.val(GetFormattedTime(this.annotator.player.videoElement.currentTime));
+            this.$timeEndField.val(GetFormattedTime(this.annotator.player.videoElement.duration));
+            this.$textField.val("");
+            // Reset the tags field
+            this.$tagsField.val("").trigger("change");
+            this.$tagsField.find("option").remove();
+
+            this.polyEditor.InitPoly();
+        }
+
+        // Modify GUI based on edit mode
+        if(this.editMode) {
+            this.$titleLabel.text("Edit Annotation");
+            this.$deleteButton.button("enable");
+        }
+        else {
+            this.$titleLabel.text("Create Annotation");
+            this.$deleteButton.button("disable");
+        }
+
     }
 
     CommitAnnotationToServer(callback){
