@@ -119,7 +119,18 @@ class VideoAnnotator {
             this.$addAnnotationButton.button("disable");
             this.gui.BeginEditing();
         });
-        this.player.controlBar.RegisterElement(this.$addAnnotationButton, 2, 'flex-end');
+        this.player.controlBar.RegisterElement(this.$addAnnotationButton, 3, 'flex-end');
+
+        // Inject the annotation upload button into the toolbar
+        this.$uploadAnnotationButton = $("<button>Upload New Annotation</button>").button({
+            icon: "fa fa-upload",
+            showLabel: false
+        }).click(() => {
+            this.LoadFromFile();
+        });
+        this.player.controlBar.RegisterElement(this.$uploadAnnotationButton, 2, 'flex-end');
+
+        
 
         this.gui = new AnnotationGUI(this);
 
@@ -183,6 +194,10 @@ class VideoAnnotator {
 
         // Update dependent views
         this.UpdateViews();
+
+    }
+
+    LoadFromFile() {
 
     }
 
