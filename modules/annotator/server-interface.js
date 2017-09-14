@@ -97,10 +97,10 @@ class ServerInterface {
             dataType: "json",
             async: true
         }).done((data) => {
-            console.log("Fetched " + data.length + " annotations for " + searchKey + ": \"" + searchParam + "\".");
+            console.log(`Fetched ${data.length} annotations for ${searchKey}: "${searchParam}".`);
         }).fail((response) => {
-            //console.error("Error fetching annotations for " + searchKey + ": \"" + searchParam + "\".");
-            //this.annotator.messageOverlay.ShowError("Could not retrieve annotations!");
+            console.error(`Error fetching annotations for ${searchKey}: "${searchParam}"\n${response.responseJSON.detail}.`);
+            this.annotator.messageOverlay.ShowError(`Could not retrieve annotations!<br>(${response.responseJSON.detail})`);
         });
     }
 
